@@ -8,15 +8,35 @@ var express     = require('express'),
 var port = 3000;
 
 // DB
+mongoose.connect('mongodb://localhost/movies_app');
+mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
+mongoose.connection.once('open', function() {
+  console.log('DB: Connected');
+  // var data = { name: "Thom", password: "Thom" }
+  // var User = require('./models/users');
+  // User.create(data, function(err, result) {
+  //   if (err) { console.log(err) }
+  //   console.log(result);
+  //   mongoose.connection.close();
+  // });
+});
 
 // CONTROLLERS
 var moviesController = require('./controllers/moviesController');
+var usersController = require('./controllers/usersController');
 
 // MIDDLEWARE
 app.use(express.static('public'));
 app.use(bodyParser.json());
 
-app.use('/movies', moviesController);
+app.use('/users', usersController);
+app.use('/users', moviesController);
+
+
+// ROOT
+app.get('/', function(req, res) {
+  res.redirect('/users/584844f1a72b8458a2be54ce');
+});
 
 // LISTENER
 app.listen(port, function() {
