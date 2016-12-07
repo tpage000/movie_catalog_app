@@ -18,12 +18,13 @@ $(function() {
           // SEND MOVIE TO SERVER - CREATE MOVIE
           $.ajax({
             method: 'POST',
-            url: '/users/584844f1a72b8458a2be54ce/movies',
+            url: '/movies/584844f1a72b8458a2be54ce/',
             data: result
           }).done(function(savedUser) {
-            console.log(savedUser);
-            $addButton.remove();
-            $('#input-box').val('');
+            window.location.href = '/movies/' + savedUser._id + '/alphabetical'
+            // console.log(savedUser);
+            // $addButton.remove();
+            // $('#input-box').val('');
           });
         }); // end add button handler
       }); // end movie ajax

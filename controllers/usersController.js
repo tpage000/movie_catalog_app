@@ -3,10 +3,9 @@ var express = require('express');
 var router = express.Router();
 
 var User = require('../models/users');
-var Movie = require('../models/movies');
 
 // INDEX to json
-router.get('/json', function(req, res) {
+router.get('/', function(req, res) {
   User.find(function(err, allUsers) {
     res.send(allUsers);
   });

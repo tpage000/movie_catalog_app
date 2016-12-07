@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/users', usersController);
-app.use('/users', moviesController);
+app.use('/movies', moviesController);
 
 
 // ROOT
