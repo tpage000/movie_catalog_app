@@ -3,17 +3,43 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+
+    <!-- BOOTSTRAP CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- PROJECT CSS    -->
     <link rel="stylesheet" href="/css/style.css">
-    <script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
+
+    <!-- JQUERY CDN -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- PROJECT JS -->
     <script type="text/javascript" src="/js/app.js"></script>
   </head>
   <body>
-    <div>
-      <input id="input-box" type="text" placeholder="NEW MOVIE"/>
-      <button id="input-submit">GET MOVIE</button>
-    </div>
+    <div class="container">
+
+      <nav>
+        <ul class="nav nav-tabs">
+          <li><a href="#">Alphabetical</a></li>
+          <li><a href="#">Release Year</a></li>
+          <li><a href="#">Watch Date</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h1>HI <%=user.name.toUpperCase() %>, YOU WATCHED A MOVIE!</h1>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="input-group">
+              <input id="input-box" type="text" class="form-control" placeholder="movie title . . .">
+              <span class="input-group-btn">
+                <button id="input-submit" class="btn btn-danger" type="button">FIND MOVIE</button>
+              </span>
+            </div> <!-- end input group -->
+          </div> <!-- end col -->
+        </div> <!-- end row -->
+      </div>
+    </div> <!-- end container -->
   </body>
 </html>

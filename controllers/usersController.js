@@ -1,7 +1,8 @@
+// DEPENDENCIES FOR ROUTER
 var express = require('express');
-
 var router = express.Router();
 
+// MODELS
 var User = require('../models/users');
 
 // INDEX to json
@@ -14,7 +15,7 @@ router.get('/', function(req, res) {
 // SHOW to view
 router.get('/:id', function(req, res) {
   User.findById(req.params.id, function(err, userData) {
-    res.render('users/show.ejs');
+    res.render('users/show.ejs', { user: userData });
   });
 });
 
@@ -25,10 +26,7 @@ router.get('/:id/json', function(req, res) {
   });
 });
 
-
-
-
-// users_create
+// CREATE
 
 
 

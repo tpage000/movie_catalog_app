@@ -36,7 +36,7 @@ app.use('/movies', moviesController);
 
 // ROOT
 app.get('/', function(req, res) {
-  res.redirect('/users/584844f1a72b8458a2be54ce');
+  res.redirect('/users');
 });
 
 // LISTENER
