@@ -10,7 +10,8 @@ var movieSchema = new Schema({
   Year: String,
   Plot: String,
   DatesWatched: [],
-  Reviews: []
+  Reviews: [],
+  Rating: { type: Number, min: 0, max: 5, default: 0 }
 });
 
 
