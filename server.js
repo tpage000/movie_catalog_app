@@ -8,7 +8,8 @@ var express     = require('express'),
 var port = 3000;
 
 // DB
-mongoose.connect('mongodb://localhost/movies_app');
+var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/movies_app'
+mongoose.connect(mongoURI);
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
 mongoose.connection.once('open', function() {
   console.log('DB: Connected');
@@ -40,8 +41,8 @@ app.get('/', function(req, res) {
 });
 
 // LISTENER
-app.listen(port, function() {
+app.listen(process.env.PORT || port, function() {
   console.log('=================================');
-  console.log('MOVIE APP RUNNING ON PORT: ', port);
+  console.log('MOVIE APP RUNNING ON PORT: ', process.env.PORT || port);
   console.log('=================================')
 });
