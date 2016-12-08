@@ -2,7 +2,6 @@ console.log('hi');
 
 // ONLOAD
 $(function() {
-
   // =======================================================================================
   // BEGIN PROCESS FOR WHEN INPUT SUBMIT IS CLICKED
   $('#input-submit').on('click', function() {
@@ -10,6 +9,7 @@ $(function() {
     var $inputString = $('#input-box').val();
     // ==========================================================================================
     // MAKE AJAX REQUEST TO OMDBAPI using the input string in the request url
+     // Note: The request url needs to be https or Heroku gives a 'mixed content' error
      $.ajax('https://www.omdbapi.com/?t=' + $inputString + '&y=&plot=short&r=json')
       .done(function(result) {
         // The returned data from OMDB is:
