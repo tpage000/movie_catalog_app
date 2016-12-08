@@ -13,6 +13,8 @@ Incomplete:
 
 - There is no validation for adding a new movie (you can add something that does not exist, or add a movie twice, and it will mess with the lists)
 
+- No error messages yet for getting movies, login, or signup
+
 ----
 Features coming soon:
 
