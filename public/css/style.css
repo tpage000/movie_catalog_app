@@ -1,0 +1,18 @@
+body {
+  background-color: #fdfdfd;
+}
+
+.hit-button {
+  display: inline-block;
+  height: 60px; width: 160px;
+  background-color: #5bc0de;
+  font-size: 30px;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.poster-img {
+  display: inline-block;
+  border-radius: 20px;
+}

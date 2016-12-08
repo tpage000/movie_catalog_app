@@ -21,14 +21,15 @@
 
       <nav>
         <ul class="nav nav-tabs">
-          <li><a href="#">Alphabetical</a></li>
-          <li><a href="#">Release Year</a></li>
+          <li><a href="/movies/<%= user.id %>/alphabetical">Alphabetical</a></li>
+          <li><a href="/movies/<%= user.id %>/release_date">Chronological</a></li>
           <li><a href="#">Watch Date</a></li>
+          <li><a href="/users/<%= user.id %>">NEW</a></li>
         </ul>
       </nav>
 
       <div>
-        <h1>HI <%=user.name.toUpperCase() %>, YOU WATCHED A MOVIE!</h1>
+        <h1>Hi <%=user.name %>! So you watched a movie?</h1>
         <div class="row">
           <div class="col-lg-6">
             <div class="input-group">
@@ -40,6 +41,11 @@
           </div> <!-- end col -->
         </div> <!-- end row -->
       </div>
+
+      <div class="row" id="result-container">
+      </div>
+
+
     </div> <!-- end container -->
   </body>
 </html>

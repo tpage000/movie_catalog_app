@@ -26,8 +26,6 @@ router.get('/:id/json', function(req, res) {
   });
 });
 
-// CREATE
-
 
 
 

@@ -12,13 +12,35 @@ $(function() {
       .done(function(result) {
         console.log(result);
 
-        var $addButton = $('<button>ADD THIS MOVIE</button>');
-        $('body').append($addButton);
+        $('#result-container').empty();
+        $('#input-box').val('');
+
+        var $movieContainer = $('<div>');
+
+        $movieContainer.append($('<h3>').text(result.Title));
+        $movieContainer.append($('<p>').text(result.Year));
+        $movieContainer.append($('<p>').text(result.Director));
+        $movieContainer.append($('<img>').attr('src', result.Poster).addClass('poster-img'));
+        $movieContainer.append($('<p>'));
+        var $addButton = $('<button type="submit">ADD</button>');
+        $addButton.addClass('hit-button');
+        // $addButton.addClass('btn btn-lg-success');
+        $movieContainer.append($addButton);
+
+        $movieContainer.addClass('col-lg-6 text-center');
+
+        $('#result-container').append($movieContainer);
+
         $addButton.on('click', function() {
           // SEND MOVIE TO SERVER - CREATE MOVIE
+
+          var userId = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+
+          console.log('user is: ', userId);
+
           $.ajax({
             method: 'POST',
-            url: '/movies/584844f1a72b8458a2be54ce/',
+            url: '/movies/' + userId,
             data: result
           }).done(function(savedUser) {
             window.location.href = '/movies/' + savedUser._id + '/alphabetical'
