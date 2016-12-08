@@ -9,11 +9,12 @@ $(function() {
     // Get string value from the input box (the intended movie title)
     var $inputString = $('#input-box').val();
     // ==========================================================================================
-    // AJAX REQUEST TO OMDBAPI
+    // MAKE AJAX REQUEST TO OMDBAPI using the input string in the request url
      $.ajax('https://www.omdbapi.com/?t=' + $inputString + '&y=&plot=short&r=json')
       .done(function(result) {
+        // The returned data from OMDB is:
         console.log(result);
-        // empty out the movie results and input box when another request comes in
+        // empty out the movie results box and input box when another request comes in
         $('#result-container').empty();
         $('#input-box').val('');
         // if the AJAX request to OMDB does not have the movie, send this message to the page
@@ -50,7 +51,7 @@ $(function() {
               url: '/movies/' + userId,
               data: result
             }).done(function(savedUser) {
-              // When the request is done, redirect to the alphabetical list
+              // When the request is done, redirect to the user's alphabetical list
               window.location.href = '/movies/' + savedUser._id + '/alphabetical_columns'
             });
           }); // end add button handler
