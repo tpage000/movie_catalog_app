@@ -14,6 +14,20 @@ router.get('/:user_id/alphabetical', function(req, res) {
   });
 });
 
+// MOVIES INDEX ALPHABETICAL
+// GET /movies/:user_id/alphabetical
+router.get('/:user_id/alphabetical_columns', function(req, res) {
+  User.findById(req.params.user_id, function(err, foundUser) {
+    res.render('movies/index_columns_alpha.ejs', { movies: foundUser.moviesColumnsAlpha, userId: foundUser.id });
+  });
+});
+
+router.get('/:user_id/chronological_columns', function(req, res) {
+  User.findById(req.params.user_id, function(err, foundUser) {
+    res.render('movies/index_columns_year.ejs', { movies: foundUser.moviesColumnsYear, userId: foundUser.id });
+  });
+});
+
 // MOVIES INDEX BY RELEASE DATE
 // GET /movies/:user_id/release_date
 router.get('/:user_id/release_date', function(req, res) {

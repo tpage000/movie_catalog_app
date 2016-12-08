@@ -43,7 +43,7 @@ $(function() {
             url: '/movies/' + userId,
             data: result
           }).done(function(savedUser) {
-            window.location.href = '/movies/' + savedUser._id + '/alphabetical'
+            window.location.href = '/movies/' + savedUser._id + '/alphabetical_columns'
             // console.log(savedUser);
             // $addButton.remove();
             // $('#input-box').val('');

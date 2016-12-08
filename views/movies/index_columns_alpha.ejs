@@ -28,9 +28,13 @@
       </nav>
 
       <h1>MOVIES - Alphabetical</h1>
-      <% movies.forEach(function(movie) { %>
-        <h3><a href="/movies/<%= userId %>/<%= movie.id %>"><%= movie.Title %></a></h3>
-      <% }) %>
+      <!-- parse through columns object -->
+      <% Object.keys(movies).forEach(function(letter) { %>
+          <h2><%= letter %></h2>
+          <% movies[letter].forEach(function(movie) { %>
+            <p><a href="/movies/<%= userId %>/<%= movie.id %>"><%= movie.Title %></a></p>
+          <% }) %>
+      <% }); %>
     </div>
   </body>
 </html>
