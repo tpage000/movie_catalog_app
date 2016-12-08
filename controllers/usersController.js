@@ -12,6 +12,11 @@ router.get('/', function(req, res) {
   });
 });
 
+// signup
+router.get('/signup', function(req, res) {
+  res.render('users/signup.ejs');
+});
+
 // SHOW to view
 router.get('/:id', function(req, res) {
   User.findById(req.params.id, function(err, userData) {
@@ -26,10 +31,31 @@ router.get('/:id/json', function(req, res) {
   });
 });
 
+router.post('/', function(req, res) {
 
+  console.log('USER CREATE ROUTE HIT');
 
+  console.log('req.body is: ', req.body);
 
+  User.create(req.body, function(err, newUser) {
+    if (err) { console.log(err); }
+    console.log('new user created: ', newUser);
+    res.redirect('/users/' + newUser.id);
+  });
 
+});
+
+router.post('/login', function(req, res) {
+
+  console.log('login route hit!');
+  console.log('req.body is: ', req.body);
+
+  User.findOne({ name: req.body.name}, function(err, foundUser) {
+      if (err) { console.log(err); }
+      res.redirect('/users/' + foundUser.id);
+  });
+
+});
 
 
 

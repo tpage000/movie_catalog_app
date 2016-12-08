@@ -36,7 +36,7 @@ app.use('/movies', moviesController);
 
 // ROOT
 app.get('/', function(req, res) {
-  res.redirect('/users');
+  res.redirect('/users/signup');
 });
 
 // LISTENER
