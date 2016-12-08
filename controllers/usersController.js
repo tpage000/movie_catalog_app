@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
 
 // signup
 router.get('/signup', function(req, res) {
-  res.render('users/signup.ejs');
+  res.render('users/signup.ejs', { error: false });
 });
 
 // SHOW to view
@@ -38,11 +38,13 @@ router.post('/', function(req, res) {
   console.log('req.body is: ', req.body);
 
   User.create(req.body, function(err, newUser) {
-    if (err) { console.log(err); }
-    console.log('new user created: ', newUser);
-    res.redirect('/users/' + newUser.id);
+    if (err) {
+      res.render('users/signup.ejs', { error: true })
+    } else {
+      console.log('new user created: ', newUser);
+      res.redirect('/users/' + newUser.id);
+    }
   });
-
 });
 
 router.post('/login', function(req, res) {
@@ -56,13 +58,5 @@ router.post('/login', function(req, res) {
   });
 
 });
-
-
-
-
-
-
-
-
 
 module.exports = router;
