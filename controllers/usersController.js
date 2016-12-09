@@ -54,8 +54,11 @@ router.post('/', function(req, res) {
 // POST /users/login
 router.post('/login', function(req, res) {
   User.findOne({ name: req.body.name}, function(err, foundUser) {
-      if (err) { console.log(err); }
+    if (err) {
+      console.log(err);
+    } else {
       res.redirect('/users/' + foundUser.id);
+    }
   });
 });
 
