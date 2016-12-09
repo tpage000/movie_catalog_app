@@ -57,14 +57,16 @@ router.post('/login', function(req, res) {
   User.findOne({ name: req.body.name}, function(err, foundUser) {
     if (err) { console.log('error: ', err); }
     if (!foundUser) {
-      req.session.noUser = true;
+      req.session.wrongPass = false;
+      req.session.wrongUser = req.body.name;
       res.redirect('/signup');
     } else if (req.body.password == foundUser.password) {
-      req.session.noUser = false;
+      req.session.wrongUser = '';
       req.session.wrongPass = false;
       req.session.currentUser = foundUser.name;
       res.redirect('/users/' + foundUser.id);
     } else {
+      req.session.wrongUser = '';
       req.session.wrongPass = true;
       res.redirect('/signup');
     }

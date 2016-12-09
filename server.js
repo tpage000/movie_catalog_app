@@ -54,7 +54,7 @@ app.get('/', function(req, res) {
 // SIGNUP FORM
 // GET /signup
 app.get('/signup', function(req, res) {
-  res.render('users/signup.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, noUser: req.session.noUser });
+  res.render('users/signup.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, wrongUser: req.session.wrongUser });
 });
 
 // LOGOUT

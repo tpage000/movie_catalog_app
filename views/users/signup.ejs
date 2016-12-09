@@ -68,13 +68,10 @@
         <% if (wrongPass) { %>
           <div class="col-sm-9 col-sm-offset-6">Wrong password</div>
         <% } %>
-        <% if (noUser) { %>
-          <div class="col-sm-9 col-sm-offset-6">Username does not exist!</div>
+        <% if (wrongUser) { %>
+          <div class="col-sm-9 col-sm-offset-5">Username <%= wrongUser %> does not exist!</div>
         <% } %>
     </div> <!-- ./container -->
-
-
-
 
   </body>
 </html>
