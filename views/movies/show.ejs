@@ -41,7 +41,11 @@
             <h5>Written by: <%= movie.Writer %></h5>
             <p><%= movie.Plot %></p>
             <hr>
-            <h5>Your rating:</h5>
+            <h5>Your rating:
+              <% for (var i=0; i < movie.Rating; i ++) { %>
+                &#x2B50;
+              <% } %>
+            </h5>
             <form action="/movies/<%= userId %>/<%= movie.id %>/update_rating" method="POST">
               <select name="Rating" onchange="this.form.submit();">
                 <% for (var i=0; i <= 5; i++) { %>
