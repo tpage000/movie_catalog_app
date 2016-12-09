@@ -45,8 +45,33 @@ app.use('/movies', moviesController);
 
 // ROOT
 app.get('/', function(req, res) {
-  res.redirect('/users/signup');
+  res.redirect('/signup');
 });
+
+//============================================================
+// REGISTER
+
+// SIGNUP FORM
+// GET /signup
+app.get('/signup', function(req, res) {
+  res.render('users/signup.ejs', { userTaken: req.session.userTaken });
+});
+
+// LOGOUT
+// GET /logout
+app.get('/logout', function(req, res) {
+  req.session.destroy(function(err) {
+    if (err) {
+      console.log('error destroying session: ', req.session);
+    } else {
+      res.redirect('/signup');
+    }
+  });
+});
+
+// End Register
+// ============================================================
+
 
 // LISTENER
 app.listen(port, function() {

@@ -13,24 +13,6 @@ router.get('/', function(req, res) {
   });
 });
 
-// SIGNUP FORM
-// GET /users/signup
-router.get('/signup', function(req, res) {
-  res.render('users/signup.ejs', { error: false });
-});
-
-// LOGOUT
-// GET /users/logout
-router.get('/logout', function(req, res) {
-  req.session.destroy(function(err) {
-    if (err) {
-      console.log('error destroying session: ', req.session);
-    } else {
-      res.redirect('/users/signup');
-    }
-  });
-});
-
 // MAIN PAGE
 // USER SHOW - loads a page to make AJAX requests to OMDB API
 // GET /users/:id
@@ -39,7 +21,7 @@ router.get('/:id', function(req, res) {
     if (req.session.currentUser == userData.name) {
       res.render('users/show.ejs', { user: userData });
     } else {
-      res.redirect('/users/signup');
+      res.redirect('/signup');
     }
   });
 });
@@ -58,9 +40,12 @@ router.post('/', function(req, res) {
   User.create(req.body, function(err, newUser) {
     // If user already exists, send error message to the page
     if (err) {
-      res.render('users/signup.ejs', { error: true })
+      req.session.userTaken = true;
+      res.redirect('/signup');
     // Else go to the user's show page -- New Movie
     } else {
+      req.session.userTaken = false;
+      req.session.currentUser = newUser.name;
       res.redirect('/users/' + newUser.id);
     }
   });
@@ -74,7 +59,6 @@ router.post('/login', function(req, res) {
       console.log(err);
     } else {
       req.session.currentUser = foundUser.name;
-      console.log('Session: ', req.session.currentUser);
       res.redirect('/users/' + foundUser.id);
     }
   });
