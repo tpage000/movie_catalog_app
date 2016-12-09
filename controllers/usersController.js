@@ -55,11 +55,18 @@ router.post('/', function(req, res) {
 // POST /users/login
 router.post('/login', function(req, res) {
   User.findOne({ name: req.body.name}, function(err, foundUser) {
-    if (err) {
-      console.log(err);
-    } else {
+    if (err) { console.log('error: ', err); }
+    if (!foundUser) {
+      req.session.noUser = true;
+      res.redirect('/signup');
+    } else if (req.body.password == foundUser.password) {
+      req.session.noUser = false;
+      req.session.wrongPass = false;
       req.session.currentUser = foundUser.name;
       res.redirect('/users/' + foundUser.id);
+    } else {
+      req.session.wrongPass = true;
+      res.redirect('/signup');
     }
   });
 });

@@ -65,6 +65,12 @@
                 </div>
             </div>
         </form> <!-- /form -->
+        <% if (wrongPass) { %>
+          <div class="col-sm-9 col-sm-offset-6">Wrong password</div>
+        <% } %>
+        <% if (noUser) { %>
+          <div class="col-sm-9 col-sm-offset-6">Username does not exist!</div>
+        <% } %>
     </div> <!-- ./container -->
 
 
