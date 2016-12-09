@@ -13,6 +13,7 @@ router.get('/', function(req, res) {
   });
 });
 
+// ==========================================================
 // MAIN PAGE
 // USER SHOW - loads a page to make AJAX requests to OMDB API
 // GET /users/:id
@@ -25,6 +26,7 @@ router.get('/:id', function(req, res) {
     }
   });
 });
+// =========================================================
 
 // USER SHOW - json output for testing
 // GET /users/:id/json
