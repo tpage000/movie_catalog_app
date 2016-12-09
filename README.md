@@ -16,6 +16,8 @@ Incomplete:
 - There is no validation for checking if a movie already exists before add
 
 - Removing an added movie
+
+- Make landing page the movie search page (instead of signup) now that sessions are implemented
 ----
 Features coming soon:
 
