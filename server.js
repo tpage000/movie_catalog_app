@@ -2,7 +2,8 @@
 var express     = require('express'),
     app         = express(),
     bodyParser  = require('body-parser'),
-    mongoose    = require('mongoose');
+    mongoose    = require('mongoose'),
+    session     = require('express-session');
 
 // PORT
 var port = process.env.PORT || 3000;
@@ -29,9 +30,15 @@ var moviesController = require('./controllers/moviesController');
 var usersController = require('./controllers/usersController');
 
 // MIDDLEWARE
+app.use(session({
+  secret: 'braingremlin',
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
 
 app.use('/users', usersController);
 app.use('/movies', moviesController);

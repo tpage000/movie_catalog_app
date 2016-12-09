@@ -19,12 +19,28 @@ router.get('/signup', function(req, res) {
   res.render('users/signup.ejs', { error: false });
 });
 
+// LOGOUT
+// GET /users/logout
+router.get('/logout', function(req, res) {
+  req.session.destroy(function(err) {
+    if (err) {
+      console.log('error destroying session: ', req.session);
+    } else {
+      res.redirect('/users/signup');
+    }
+  });
+});
+
 // MAIN PAGE
 // USER SHOW - loads a page to make AJAX requests to OMDB API
 // GET /users/:id
 router.get('/:id', function(req, res) {
   User.findById(req.params.id, function(err, userData) {
-    res.render('users/show.ejs', { user: userData });
+    if (req.session.currentUser == userData.name) {
+      res.render('users/show.ejs', { user: userData });
+    } else {
+      res.redirect('/users/signup');
+    }
   });
 });
 
@@ -57,6 +73,8 @@ router.post('/login', function(req, res) {
     if (err) {
       console.log(err);
     } else {
+      req.session.currentUser = foundUser.name;
+      console.log('Session: ', req.session.currentUser);
       res.redirect('/users/' + foundUser.id);
     }
   });
