@@ -1,5 +1,7 @@
 # MOVIE CATALOG APP
 
+[**USE THE APP HERE - Movie Catalog App hosted on Heroku**](https://movie-catalog-app.herokuapp.com)
+
 * Keep track of all the movies you've ever watched in your life ever
 
 * See your movies listed alphabetically and chronologically
