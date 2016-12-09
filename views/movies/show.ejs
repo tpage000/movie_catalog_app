@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+
+    <!-- BOOTSTRAP CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- PROJECT CSS    -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- JQUERY CDN -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- PROJECT JS -->
+    <script type="text/javascript" src="/js/app.js"></script>
+  </head>
+  <body>
+    <div class="container">
+
+      <nav>
+        <ul class="nav nav-tabs">
+          <li><a href="/movies/<%= userId %>/alphabetical_columns">Alphabetical-Columns</a></li>
+          <li><a href="/movies/<%= userId %>/chronological_columns">Chronological-Columns</a></li>
+          <li><a href="/movies/<%= userId %>/alphabetical">Alphabetical-List</a></li>
+          <li><a href="/movies/<%= userId %>/release_date">Chronological-List</a></li>
+          <li><a href="/users/<%= userId %>">NEW</a></li>
+        </ul>
+      </nav>
+
+      <div>
+        <h1><%= movie.Title %></h1>
+        <h4><%= movie.Year %></h4>
+        <div class="row">
+          <div class="col-sm-6">
+            <img src="<%= movie.Poster %>"/>
+          </div> <!-- end col -->
+          <div class="col-sm-6">
+            <h4>Directed by: <%= movie.Director %></h4>
+            <h5>Written by: <%= movie.Writer %></h5>
+            <p><%= movie.Plot %></p>
+            <hr>
+            <h5>Your rating:</h5>
+            <form action="/movies/<%= userId %>/<%= movie.id %>/update_rating" method="POST">
+              <select name="Rating" onchange="this.form.submit();">
+                <% for (var i=0; i <= 5; i++) { %>
+                  <% if (movie.Rating == 0 && i == 0) { %>
+                    <option value="<%= i %>">none</option>
+                  <% } else if (movie.Rating == i) { %>
+                    <option value="<%= i %>" selected><%= i %></option>
+                  <% } else { %>
+                    <option value="<%= i %>"><%= i %></option>
+                  <% } %>
+                <% } %>
+              </select>
+            </form>
+            <p></p>
+            <hr>
+            <h5>Your reviews: </h5>
+            <%= movie.Reviews %>
+            <h5>Watched on: </h5>
+            <%= movie.DatesWatched %>
+            <hr>
+          </div> <!-- end col -->
+        </div> <!-- end row -->
+      </div>
+
+      <div class="row" id="result-container">
+      </div>
+
+
+    </div> <!-- end container -->
+  </body>
+</html>
