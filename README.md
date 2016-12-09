@@ -11,22 +11,18 @@
 ----
 Incomplete:
 
-- Sign up and log in are just dummy stuff for now until I get proper authentication. Also, these will not be in a separate view.
+- Removing user ids from the url now that sessions are implemented (full routing refactor)
 
-- There is no validation for adding a new movie (you can add something that does not exist, or add a movie twice, and it will mess with the lists)
+- There is no validation for checking if a movie already exists before add
 
-- No error messages yet for getting movies, login, or signup
-
+- Removing an added movie
 ----
 Features coming soon:
 
-* Enter the date when you watched the movie, and list movies according to watch date
+* Listing by release data will also order movies according to rating
 
-* Give your movies a rating out of 5 stars
+* Enter the date when you watched the movie, and list movies according to watch date
 
 * Add reviews / comments to your movies so you can remember what you were thinking at the time
 
-
-
-
-
+* List movies by rating
