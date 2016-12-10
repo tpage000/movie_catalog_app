@@ -32,8 +32,12 @@
       <% Object.keys(movies).forEach(function(year) { %>
           <h2><%= year %></h2>
           <% movies[year].forEach(function(movie) { %>
-            <p><a href="/movies/<%= userId %>/<%= movie.id %>"><%= movie.Title %></a></p>
-          <% }) %>
+            <p><a href="/movies/<%= userId %>/<%= movie.id %>"><%= movie.Title %></a>
+              <% for (var i=0; i < movie.Rating; i ++) { %>
+                <small>&#x2B50;</small>
+              <% } %>
+            </p>
+          <% }); %>
       <% }); %>
     </div>
   </body>
