@@ -4,13 +4,24 @@ console.log('hi');
 $(function() {
   // =======================================================================================
   // BEGIN PROCESS FOR WHEN INPUT SUBMIT IS CLICKED
-  $('#input-submit').on('click', function() {
+  $('#input-submit').on('click', processRequest);
+}); // end onload
 
+var processRequest = function() {
+  displayLoadingGif();
+  makeAjaxRequestToOMDBSearch();
+}
+
+var displayLoadingGif = function() {
     // empty out the movie results box and display the loading gif
     $('#result-container').empty();
     $loadingGifDiv = $('<div>').addClass("col-lg-6 text-center");
     $loadingGifDiv.append('<img src="http://digitalsynopsis.com/wp-content/uploads/2016/06/loading-animations-preloader-gifs-ui-ux-effects-18.gif"/>')
     $('#result-container').append($loadingGifDiv);
+}; // end displayLoadingGif
+
+
+var makeAjaxRequestToOMDBSearch = function() {
     // Get string value from the input box (the intended movie title)
     var $inputString = $('#input-box').val();
     // ==========================================================================================
@@ -52,10 +63,7 @@ $(function() {
         } // end else error
       }); // end OMDB SEARCH
       // =================================================================================
-  }); // end input submit
-  // END PROCESS FOR WHEN INPUT SUBMIT IS CLICKED
-  // ===========================================================================
-}); // end onload
+} // end makeAjaxRequestToOMDBSearch
 
 // ===================================================================================
 // 'ADD' BUTTON FUNCTIONALITY
@@ -63,6 +71,7 @@ $(function() {
 //    1. Make another request to omdb with the imdb id, in order to get more detailed results for the particular movie
 //    2. Send a POST request to the movie create route
 var getMoreMovieInfo = function() {
+  displayLoadingGif();
   // the imdb id is the 'add' button's id.
   console.log(this.id);
   // Retrieves detailed information about the chosen title using imdb id within the search string
