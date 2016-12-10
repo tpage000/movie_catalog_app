@@ -35,9 +35,7 @@
 
 * Add reviews / comments to your movies so you can remember what you were thinking at the time
 
-* List movies by rating (currently they are listed by rating within each chronological year)
-
-* Request for a movie brings back all related movies, so that you don't get stuck with the 2014 version of RoboCop
+* List movies by rating only (currently they are listed by rating within each chronological year)
 
 ----
 ### Bugs / Gremlins / Errors:
