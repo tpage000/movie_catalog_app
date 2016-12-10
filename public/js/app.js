@@ -57,9 +57,9 @@ $(function() {
               method: 'POST',
               url: '/movies/' + userId,
               data: result
-            }).done(function(savedUser) {
-              // When the request is done, redirect to the user's alphabetical list
-              window.location.href = '/movies/' + savedUser._id + '/alphabetical_columns'
+            }).done(function(response) {
+              // When the request is done, redirect to the new movie show page
+              window.location.href = '/movies/' + response.userId + '/' + response.movieId;
             });
           }); // end add button handler
           // END 'ADD' BUTTON FUNCTIONALITY

@@ -71,7 +71,7 @@ router.post('/:user_id', function(req, res) {
     User.findById(req.params.user_id, function(err, foundUser) {
       foundUser.movies.push(createdMovie);
       foundUser.save(function(err, savedUser) {
-        res.send(savedUser);
+        res.send({ userId: savedUser.id, movieId: createdMovie.id });
       }); // end foundUser.save()
     }); // end User.findByID()
   }); // end Movie.create()
