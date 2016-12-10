@@ -26,6 +26,8 @@
 
 - Make landing page the movie search page (instead of signup) now that sessions are implemented
 
+- Uh, hashed passwords . . . yeah. Should have done it already
+
 ----
 ### Features coming soon:
 
