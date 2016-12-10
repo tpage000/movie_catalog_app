@@ -8,7 +8,9 @@ $(function() {
 
     // empty out the movie results box and display the loading gif
     $('#result-container').empty();
-    $('#result-container').append('<img src="http://digitalsynopsis.com/wp-content/uploads/2016/06/loading-animations-preloader-gifs-ui-ux-effects-18.gif"/>');
+    $loadingGifDiv = $('<div>').addClass("col-lg-6 text-center");
+    $loadingGifDiv.append('<img src="http://digitalsynopsis.com/wp-content/uploads/2016/06/loading-animations-preloader-gifs-ui-ux-effects-18.gif"/>')
+    $('#result-container').append($loadingGifDiv);
     // Get string value from the input box (the intended movie title)
     var $inputString = $('#input-box').val();
     // ==========================================================================================
