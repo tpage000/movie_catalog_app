@@ -24,8 +24,6 @@
 
 - Make landing page the movie search page (instead of signup) now that sessions are implemented
 
-- Refactor ejs with partials / includes
-
 ----
 ### Features coming soon:
 

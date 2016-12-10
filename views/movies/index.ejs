@@ -10,15 +10,8 @@
   </head>
   <body>
     <div class="container">
-      <nav>
-        <ul class="nav nav-tabs">
-          <li><a href="/movies/<%= userId %>/alphabetical_columns">Alphabetical-Columns</a></li>
-          <li><a href="/movies/<%= userId %>/chronological_columns">Chronological-Columns</a></li>
-          <li><a href="/movies/<%= userId %>/alphabetical">Alphabetical-List</a></li>
-          <li><a href="/movies/<%= userId %>/release_date">Chronological-List</a></li>
-          <li><a href="/users/<%= userId %>">NEW</a></li>
-        </ul>
-      </nav>
+      <!-- include ejs template for nav nav bar-->
+      <%- include ../partials/navigation.ejs %>
 
       <h1>MOVIES - Alphabetical</h1>
       <% movies.forEach(function(movie) { %>
