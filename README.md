@@ -20,6 +20,8 @@
 
 - Validation for checking if a movie already exists before add
 
+- If movie is not found on OMDB, provide a form to add a movie manually
+
 - Removing an added movie
 
 - Make landing page the movie search page (instead of signup) now that sessions are implemented
@@ -27,10 +29,10 @@
 ----
 ### Features coming soon:
 
-* Listing by release data will also order movies according to rating
-
 * Enter the date when you watched the movie, and list movies according to watch date
 
 * Add reviews / comments to your movies so you can remember what you were thinking at the time
 
-* List movies by rating
+* List movies by rating (currently they are listed by rating within each chronological year)
+
+* Request for a movie brings back all related movies, so that you don't get stuck with the 2014 version of RoboCop
