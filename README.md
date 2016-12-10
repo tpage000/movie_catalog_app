@@ -6,22 +6,28 @@
 
 * See your movies listed alphabetically and chronologically
 
-* Uses OMDB api for movie data
+
+### Built with
+	* Node and Express
+	* Mongo db, and Mongoose for ODM
+	* EJS server-side rendering
+	* OMDB api for movie data
 
 ----
-Incomplete:
+### Main code to implement:
 
 - Removing user ids from the url now that sessions are implemented (full routing refactor)
 
-- There is no validation for checking if a movie already exists before add
+- Validation for checking if a movie already exists before add
 
 - Removing an added movie
 
 - Make landing page the movie search page (instead of signup) now that sessions are implemented
 
 - Refactor ejs with partials / includes
+
 ----
-Features coming soon:
+### Features coming soon:
 
 * Listing by release data will also order movies according to rating
 
