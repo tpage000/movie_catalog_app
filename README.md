@@ -36,3 +36,13 @@
 * List movies by rating (currently they are listed by rating within each chronological year)
 
 * Request for a movie brings back all related movies, so that you don't get stuck with the 2014 version of RoboCop
+
+----
+### Bugs / Gremlins / Errors:
+
+* none reported yet
+
+<br>
+
+
+<small>Thom Page, December 2016</small>
