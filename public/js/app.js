@@ -5,6 +5,10 @@ $(function() {
   // =======================================================================================
   // BEGIN PROCESS FOR WHEN INPUT SUBMIT IS CLICKED
   $('#input-submit').on('click', function() {
+
+    // empty out the movie results box and display the loading gif
+    $('#result-container').empty();
+    $('#result-container').append('<img src="http://digitalsynopsis.com/wp-content/uploads/2016/06/loading-animations-preloader-gifs-ui-ux-effects-18.gif"/>');
     // Get string value from the input box (the intended movie title)
     var $inputString = $('#input-box').val();
     // ==========================================================================================
@@ -14,7 +18,7 @@ $(function() {
       .done(function(result) {
         // The returned data from OMDB is:
         console.log(result);
-        // empty out the movie results box and input box when another request comes in
+        // empty out the results box and input box when another request comes in
         $('#result-container').empty();
         $('#input-box').val('');
         // if the AJAX request to OMDB does not have the movie, send this message to the page
@@ -29,6 +33,7 @@ $(function() {
           $movieContainer.append($('<h3>').text(result.Title));
           $movieContainer.append($('<p>').text(result.Year));
           $movieContainer.append($('<p>').text(result.Director));
+          if (result.Poster == "N/A") { result.Poster = "https://svn.alfresco.com/repos/alfresco-open-mirror/alfresco/COMMUNITYTAGS/V5.0.a/root/projects/repository/config/alfresco/thumbnail/thumbnail_placeholder_256_qt.png"; };
           $movieContainer.append($('<img>').attr('src', result.Poster).addClass('poster-img'));
           $movieContainer.append($('<p>'));
           var $addButton = $('<button type="submit">ADD</button>');
