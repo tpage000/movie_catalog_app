@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- PROJECT CSS    -->
     <link rel="stylesheet" href="/css/style.css">
+    <!-- JQUERY CDN -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <!-- PROJECT JS -->
+    <script type="text/javascript" src="/js/updateMoviePage.js"></script>
   </head>
   <body>
     <div class="container">
@@ -45,18 +49,28 @@
             </form>
             <p></p>
             <hr>
-            <h5>Your reviews:
-              <button type="button" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-              </button>
-            </h5>
-            <%= movie.Reviews %>
-            <h5>Dates watched:
-              <button type="button" class="btn btn-default btn-sm">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-              </button>
-            </h5>
-            <%= movie.DatesWatched %>
+            <div id="dates-container">
+              <h5>Dates watched: <%= movie.DatesWatched %>
+                <% if (movie.DatesWatched.length == 0) { %>
+                  <span>Add a date</span>
+                <% } %>
+              </h5>
+              <form action="/movies/<%= userId %>/<%= movie.id %>/update_date" method="POST">
+                <input id="date-input" type="date" name="newDate"/>
+                <button id="add-date-button" type="submit" class="btn btn-default btn-sm">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                </button>
+              </form>
+            </div> <!-- end dates container -->
+            <hr>
+            <div id="reviews-container">
+              <h5>Your reviews:
+                <button id="add-review-button" type="button" class="btn btn-default btn-sm">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                </button>
+              </h5>
+              <%= movie.Reviews %>
+            </div> <!-- end reviews container -->
             <hr>
           </div> <!-- end col -->
         </div> <!-- end row -->

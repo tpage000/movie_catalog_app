@@ -78,17 +78,31 @@ router.post('/:user_id', function(req, res) {
 }); // end create route
 
 
-// UPDATE MOVIE Rating - can probably make this a generalized update
+// UPDATE MOVIE Rating
 router.post('/:user_id/:movie_id/update_rating', function(req, res) {
-  console.log('hit the update rating route');
-  console.log(req.body);
   Movie.findByIdAndUpdate(req.params.movie_id, { $set: req.body }, { new: true }, function(err, updatedMovie) {
-    console.log('updated movie: ', updatedMovie);
     User.findById(req.params.user_id, function(err, foundUser) {
       foundUser.movies.id(req.params.movie_id).remove();
       foundUser.movies.push(updatedMovie);
       foundUser.save(function(err, savedUser) {
         res.redirect('/movies/' + req.params.user_id + '/' + updatedMovie.id);
+      });
+    });
+  });
+});
+
+// UPDATE MOVIE DatesWatched array
+router.post('/:user_id/:movie_id/update_date', function(req, res) {
+  console.log('hit the update datesWatched route');
+  Movie.findById(req.params.movie_id, function(err, foundMovie) {
+    foundMovie.DatesWatched.push(req.body.newDate);
+    foundMovie.save(function(err, savedMovie) {
+      User.findById(req.params.user_id, function(err, foundUser) {
+        foundUser.movies.id(req.params.movie_id).remove();
+        foundUser.movies.push(savedMovie);
+        foundUser.save(function(err, savedUser) {
+          res.redirect('/movies/' + req.params.user_id + '/' + savedMovie.id);
+        });
       });
     });
   });
