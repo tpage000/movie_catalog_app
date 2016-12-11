@@ -11,6 +11,9 @@ var userSchema = new Schema({
   movies: [movieSchema]
 });
 
+// Before each save of the user, check if the password has been added or modified,
+// and if it has, hash the provided password and store it.
+// Used at signup / creating a user.
 userSchema.pre('save', function(next) {
   if (!this.isModified('password')) { return next(); }
   var hashedPassword = bcrypt.hashSync(this.password, bcrypt.genSaltSync(10));
@@ -18,27 +21,11 @@ userSchema.pre('save', function(next) {
   next();
 });
 
-
-// // Virtual for hashing the password
-// userSchema.virtual('plainPassword')
-//   .set(function(plainPassword) {
-//     this._password = plainPassword;
-//     this.password = this.hashPassword(plainPassword);
-//   })
-//   .get(function() {
-//     return this._password;
-//   });
-
-//
-userSchema.methods.hashPassword = function(password) {
-  if (!password) { return '' };
-  return bcrypt.hashSync(password, 10);
-}
-
+// Method for comparing the provided password with the stored hashed password.
+// Used at login / authenticating a user.
 userSchema.methods.authenticate = function(password) {
   return bcrypt.compareSync(password, this.password);
 }
-
 
 // Virtual for sorting the user's movies array by alphabetical movie.Title
 // [{Title: "An Autumn Afternoon"}, {Title: "Late Spring"}, {Title: "Tokyo Story"}]
