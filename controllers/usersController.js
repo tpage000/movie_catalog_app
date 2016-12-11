@@ -42,10 +42,14 @@ router.post('/', function(req, res) {
   User.create(req.body, function(err, newUser) {
     // If user already exists, send error message to the page
     if (err) {
+      req.session.wrongPass = false;
+      req.session.wrongUser = '';
       req.session.userTaken = true;
       res.redirect('/signup');
     // Else go to the user's show page -- New Movie
     } else {
+      req.session.wrongPass = false;
+      req.session.wrongUser = '';
       req.session.userTaken = false;
       req.session.currentUser = newUser.name;
       res.redirect('/users/' + newUser.id);
@@ -59,15 +63,18 @@ router.post('/login', function(req, res) {
   User.findOne({ name: req.body.name}, function(err, foundUser) {
     if (err) { console.log('error: ', err); }
     if (!foundUser) {
+      req.session.userTaken = false;
       req.session.wrongPass = false;
       req.session.wrongUser = req.body.name;
       res.redirect('/signup');
     } else if (req.body.password == foundUser.password) {
+      req.session.userTaken = false;
       req.session.wrongUser = '';
       req.session.wrongPass = false;
       req.session.currentUser = foundUser.name;
       res.redirect('/users/' + foundUser.id);
     } else {
+      req.session.userTaken = false;
       req.session.wrongUser = '';
       req.session.wrongPass = true;
       res.redirect('/signup');
