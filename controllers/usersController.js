@@ -5,14 +5,6 @@ var router = express.Router();
 // MODELS
 var User = require('../models/users');
 
-// INDEX OF USERS - json output for testing
-// GET /users
-router.get('/', function(req, res) {
-  User.find(function(err, allUsers) {
-    res.send(allUsers);
-  });
-});
-
 // ==========================================================
 // MAIN PAGE
 // USER SHOW - loads a page to make AJAX requests to OMDB API
@@ -28,13 +20,6 @@ router.get('/:id', function(req, res) {
 });
 // =========================================================
 
-// USER SHOW - json output for testing
-// GET /users/:id/json
-router.get('/:id/json', function(req, res) {
-  User.findById(req.params.id, function(err, userData) {
-    res.send(userData);
-  });
-});
 
 // CREATE USER - data comes from signup page
 // POST /users
