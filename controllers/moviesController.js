@@ -93,8 +93,20 @@ router.post('/:user_id/:movie_id/update_rating', function(req, res) {
 
 // UPDATE MOVIE DatesWatched array
 router.post('/:user_id/:movie_id/update_date', function(req, res) {
+  // Incoming date is formatted with dashes: 2016-11-9
+  // If dashes are used in new Date() it will give you yesterday's date.
+  // Convert dashes to slashes to get the proper date:
+  var slashDate = req.body.newDate.replace(/-/g, '/');
+  // get date output in separated strings
+  var dt = new Date(slashDate).toString().split(' ');
+  // => "Sun Dec 11 2016"
+  var dateString = dt[0] + ' ' + dt[1] + ' ' + dt[2] + ' ' + dt[3];
+  console.log(dateString);
+
+  var dateObject = { dateString: dateString, yymmdd: req.body.newDate }
+
   Movie.findById(req.params.movie_id, function(err, foundMovie) {
-    foundMovie.DatesWatched.push(req.body.newDate);
+    foundMovie.DatesWatched.push(dateObject);
     foundMovie.save(function(err, savedMovie) {
       User.findById(req.params.user_id, function(err, foundUser) {
         foundUser.movies.id(req.params.movie_id).remove();
