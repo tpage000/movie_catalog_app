@@ -42,12 +42,14 @@ router.post('/', function(req, res) {
   User.create(req.body, function(err, newUser) {
     // If user already exists, send error message to the page
     if (err) {
+      console.log('user create: ', err);
       req.session.wrongPass = false;
       req.session.wrongUser = '';
       req.session.userTaken = true;
       res.redirect('/signup');
     // Else go to the user's show page -- New Movie
     } else {
+      console.log('user.create: ', newUser);
       req.session.wrongPass = false;
       req.session.wrongUser = '';
       req.session.userTaken = false;

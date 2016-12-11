@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
 
 var movieSchema = require('../models/movies').schema;
 
@@ -10,6 +11,37 @@ var userSchema = new Schema({
   movies: [movieSchema]
 });
 
+userSchema.pre('save', function(next) {
+  if (!this.isModified('password')) { return next(); }
+  var hashedPassword = bcrypt.hashSync(this.password, bcrypt.genSaltSync(10));
+  this.password = hashedPassword;
+  next();
+});
+
+
+// // Virtual for hashing the password
+// userSchema.virtual('plainPassword')
+//   .set(function(plainPassword) {
+//     this._password = plainPassword;
+//     this.password = this.hashPassword(plainPassword);
+//   })
+//   .get(function() {
+//     return this._password;
+//   });
+
+//
+userSchema.methods.hashPassword = function(password) {
+  if (!password) { return '' };
+  return bcrypt.hashSync(password, 10);
+}
+
+userSchema.methods.authenticate = function(password) {
+  return bcrypt.compareSync(password, this.password);
+}
+
+
+// Virtual for sorting the user's movies array by alphabetical movie.Title
+// [{Title: "An Autumn Afternoon"}, {Title: "Late Spring"}, {Title: "Tokyo Story"}]
 userSchema.virtual('moviesAlphabetical').get(function() {
   var sortedByTitle = this.movies.slice().sort(function(a, b) {
     if (a.Title < b.Title) { return -1; }
@@ -20,6 +52,8 @@ userSchema.virtual('moviesAlphabetical').get(function() {
   return sortedByTitle;
 });
 
+
+// Virtual for sorting the user's movies array by chronological movie.Year
 userSchema.virtual('moviesChronological').get(function() {
   var sortedByYear = this.movies.slice().sort(function(a, b) {
     if (a.Year < b.Year) { return -1; }
@@ -30,6 +64,9 @@ userSchema.virtual('moviesChronological').get(function() {
   return sortedByYear;
 });
 
+// Virtual for sorting the user's movies array by alphabetical movie.Title AND
+// return an object whose keys are the relevant first letters
+// { A: [{Title: "An Autumn Afternoon"}], L: [{Title: "Late Spring"}], T: [{Title: "Tokyo Story"}]}
 userSchema.virtual('moviesColumnsAlpha').get(function() {
   var sortedByTitle = this.movies.slice().sort(function(a, b) {
     if (a.Title < b.Title) { return -1; }
@@ -56,6 +93,8 @@ userSchema.virtual('moviesColumnsAlpha').get(function() {
   return obj;
 });
 
+// Virtual for sorting the user's movies array by chronological movie.Year AND
+// Return an object whose keys are the relevant years
 userSchema.virtual('moviesColumnsYear').get(function() {
 
   // Sorts movies by year
@@ -93,6 +132,7 @@ userSchema.virtual('moviesColumnsYear').get(function() {
 });
 
 
+// Create the User model
 var User = mongoose.model('User', userSchema);
-
+// Export the model (used in the controllers)
 module.exports = User;
