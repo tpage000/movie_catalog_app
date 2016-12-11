@@ -55,7 +55,16 @@ var makeAjaxRequestToOMDBSearch = function() {
 // All the movie results are in an array called .Search
 // Loop over the results and give each result (each movie) a container and an 'add' button
 var displayAllMovieResults = function(searchResults) {
-  searchResults.Search.forEach(function(result) {
+
+  // Generates rows to put the results for proper formatting. There will be three results per row, so divide the number of results by 3.
+  for (var i=0; i < Math.floor((searchResults.Search.length / 3) + 1); i++) {
+    var $row = $('<div>').attr('id', 'row' + i);
+    $row.addClass("row");
+    $('#result-container').append($row);
+    console.log($row);
+  } // end generate rows
+
+  searchResults.Search.forEach(function(result, index) {
     var $movieContainer = $('<div>');
     $movieContainer.append($('<h3>').text(result.Title));
     $movieContainer.append($('<p>').text(result.Year));
@@ -70,7 +79,12 @@ var displayAllMovieResults = function(searchResults) {
     $addButton.on('click', getMoreMovieInfoFromOMDB);
     $movieContainer.append($addButton);
     $movieContainer.addClass('col-lg-4 text-center');
-    $('#result-container').append($movieContainer);
+
+    // There will be a better way to separate the results, in threes, into respective rows, I know it, other than just using another loop
+    if (index < 3 ) { $('#row0').append($movieContainer); }
+    if (index >= 3 && index <= 5 ) { $('#row1').append($movieContainer); }
+    if (index >= 6 && index <= 8 ) { $('#row2').append($movieContainer); }
+    if (index >= 9) { $('#row3').append($movieContainer); }
   });
 } // end displayAllMovieResults
 
