@@ -104,6 +104,8 @@ var getMoreMovieInfoFromOMDB = function() {
        $('#result-container').text(result.Error);
        // if the AJAX request to OMDB returns a movie, add the movie details to the page
      } else {
+       // correct the absence of a Poster (again)
+       if (result.Poster == "N/A") { result.Poster = "https://svn.alfresco.com/repos/alfresco-open-mirror/alfresco/COMMUNITYTAGS/V5.0.a/root/projects/repository/config/alfresco/thumbnail/thumbnail_placeholder_256_qt.png"; };
        // =====================================
        sendMovieDataToServer(result);
        // =====================================
