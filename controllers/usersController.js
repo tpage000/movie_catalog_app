@@ -42,14 +42,13 @@ router.post('/', function(req, res) {
   User.create(req.body, function(err, newUser) {
     // If user already exists, send error message to the page
     if (err) {
-      console.log('user create: ', err);
+      console.log('user create error: ', err);
       req.session.wrongPass = false;
       req.session.wrongUser = '';
       req.session.userTaken = true;
       res.redirect('/signup');
     // Else go to the user's show page -- New Movie
     } else {
-      console.log('user.create: ', newUser);
       req.session.wrongPass = false;
       req.session.wrongUser = '';
       req.session.userTaken = false;
@@ -63,18 +62,25 @@ router.post('/', function(req, res) {
 // POST /users/login
 router.post('/login', function(req, res) {
   User.findOne({ name: req.body.name}, function(err, foundUser) {
-    if (err) { console.log('error: ', err); }
+    if (err) { console.log('user login error: ', err); }
+    // if user does not exist:
     if (!foundUser) {
       req.session.userTaken = false;
       req.session.wrongPass = false;
       req.session.wrongUser = req.body.name;
       res.redirect('/signup');
-    } else if (req.body.password == foundUser.password) {
+
+    // calls the 'authenticate' method in the user model (returns true or false)
+    // for checking the password --->
+
+    // if password matches:
+    } else if (foundUser.authenticate(req.body.password)) {
       req.session.userTaken = false;
       req.session.wrongUser = '';
       req.session.wrongPass = false;
       req.session.currentUser = foundUser.name;
       res.redirect('/users/' + foundUser.id);
+    // if password does not match:
     } else {
       req.session.userTaken = false;
       req.session.wrongUser = '';
