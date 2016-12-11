@@ -33,3 +33,7 @@ body {
 .logout {
   color: dimgrey;
 }
+
+.form-bg {
+  background-color: #E3E3E3;
+}
