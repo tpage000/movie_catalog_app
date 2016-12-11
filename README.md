@@ -24,9 +24,11 @@
 
 - Removing an added movie
 
-- Make landing page the movie search page (instead of signup) now that sessions are implemented
+- Eventually make the landing page something other than signup / login.
 
-- Uh, hashed passwords . . . yeah. Should have done it already
+- Formatting the alphabetical movie list view in rows and columns (rather than a big ole scroll down), to facilitate larger data sets
+
+- Formatting the chronological movie list view in rows and columns with tabs for flipping between years, to facilitate larger data sets
 
 ----
 ### Features coming soon:
