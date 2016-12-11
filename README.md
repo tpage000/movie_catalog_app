@@ -33,7 +33,7 @@
 ----
 ### Features coming soon:
 
-* Enter the date when you watched the movie, and list movies according to watch date
+* List movies according to watch date
 
 * Add reviews / comments to your movies so you can remember what you were thinking at the time
 
