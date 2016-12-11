@@ -93,7 +93,6 @@ router.post('/:user_id/:movie_id/update_rating', function(req, res) {
 
 // UPDATE MOVIE DatesWatched array
 router.post('/:user_id/:movie_id/update_date', function(req, res) {
-  console.log('hit the update datesWatched route');
   Movie.findById(req.params.movie_id, function(err, foundMovie) {
     foundMovie.DatesWatched.push(req.body.newDate);
     foundMovie.save(function(err, savedMovie) {
