@@ -40,5 +40,6 @@ body {
 
 .register-warning {
   background-color: #d9534f;
-  margin-top: 1em;
+  margin-top: 2em;
+  padding: 1em;
 }

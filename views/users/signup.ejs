@@ -63,24 +63,27 @@
                 </div>
             </div>
         </form> <!-- /form -->
-
-        <% if (userTaken) { %>
-          <div class="col-sm-6 col-sm-offset-3 text-center register-warning">
-            <h4>Username already taken! Try again</h4>
-          </div>
-        <% } %>
-        <% if (wrongPass) { %>
-          <div class="col-sm-6 col-sm-offset-3 text-center register-warning">
-            <h4>Wrong password</h4>
-          </div>
-        <% } %>
-        <% if (wrongUser) { %>
-          <div class="col-sm-6 col-sm-offset-3 text-center register-warning">
-            <h4>Username <%= wrongUser %> does not exist!</h4>
-          </div>
-        <% } %>
-
     </div> <!-- ./container -->
+
+    <div class="container">
+      <form class="form-horizontal form-bg" role="form">
+      <% if (userTaken) { %>
+        <div class="col-sm-10 col-sm-offset-1 text-center register-warning">
+          <h4>Username already taken! Try again</h4>
+        </div>
+      <% } %>
+      <% if (wrongPass) { %>
+        <div class="col-sm-10 col-sm-offset-1 text-center register-warning">
+          <h4>Wrong password</h4>
+        </div>
+      <% } %>
+      <% if (wrongUser) { %>
+        <div class="col-sm-10 col-sm-offset-1 text-center register-warning">
+          <h4>Username <%= wrongUser %> does not exist!</h4>
+        </div>
+      <% } %>
+    </form>
+    </div>
 
   </body>
 </html>
