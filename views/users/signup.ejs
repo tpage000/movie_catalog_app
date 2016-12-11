@@ -38,9 +38,6 @@
                     <button type="submit" class="btn btn-primary btn-block">Do It</button>
                 </div>
             </div>
-            <% if (userTaken) { %>
-              <div class="col-sm-9 col-sm-offset-5">Username already taken! Try again</div>
-            <% } %>
         </form> <!-- /form -->
     </div> <!-- ./container -->
 
@@ -66,12 +63,23 @@
                 </div>
             </div>
         </form> <!-- /form -->
+
+        <% if (userTaken) { %>
+          <div class="col-sm-6 col-sm-offset-3 text-center register-warning">
+            <h4>Username already taken! Try again</h4>
+          </div>
+        <% } %>
         <% if (wrongPass) { %>
-          <div class="col-sm-9 col-sm-offset-6">Wrong password</div>
+          <div class="col-sm-6 col-sm-offset-3 text-center register-warning">
+            <h4>Wrong password</h4>
+          </div>
         <% } %>
         <% if (wrongUser) { %>
-          <div class="col-sm-9 col-sm-offset-5">Username <%= wrongUser %> does not exist!</div>
+          <div class="col-sm-6 col-sm-offset-3 text-center register-warning">
+            <h4>Username <%= wrongUser %> does not exist!</h4>
+          </div>
         <% } %>
+
     </div> <!-- ./container -->
 
   </body>
