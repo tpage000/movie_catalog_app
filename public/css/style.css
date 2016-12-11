@@ -43,3 +43,7 @@ body {
   margin-top: 2em;
   padding: 1em;
 }
+
+.ratings-select {
+  width: 20%;
+}

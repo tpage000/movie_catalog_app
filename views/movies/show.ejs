@@ -31,7 +31,7 @@
               <% } %>
             </h5>
             <form action="/movies/<%= userId %>/<%= movie.id %>/update_rating" method="POST">
-              <select name="Rating" onchange="this.form.submit();">
+              <select class="form-control ratings-select" name="Rating" onchange="this.form.submit();">
                 <% for (var i=0; i <= 5; i++) { %>
                   <% if (movie.Rating == 0 && i == 0) { %>
                     <option value="<%= i %>">none</option>
@@ -45,9 +45,17 @@
             </form>
             <p></p>
             <hr>
-            <h5>Your reviews: </h5>
+            <h5>Your reviews:
+              <button type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+              </button>
+            </h5>
             <%= movie.Reviews %>
-            <h5>Watched on: </h5>
+            <h5>Dates watched:
+              <button type="button" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+              </button>
+            </h5>
             <%= movie.DatesWatched %>
             <hr>
           </div> <!-- end col -->
