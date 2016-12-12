@@ -9,8 +9,6 @@
     <link rel="stylesheet" href="/css/style.css">
   <body>
 
-
-
     <header class="text-center">
       <div>
         <img src="http://image.flaticon.com/icons/png/128/54/54335.png"/>
@@ -80,6 +78,11 @@
       <% if (wrongUser) { %>
         <div class="col-sm-10 col-sm-offset-1 text-center register-warning">
           <h4>Username <%= wrongUser %> does not exist!</h4>
+        </div>
+      <% } %>
+      <% if (badAttempt) { %>
+        <div class="col-sm-10 col-sm-offset-1 text-center register-warning">
+          <h4>You must log in to see that page</h4>
         </div>
       <% } %>
     </form>

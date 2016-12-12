@@ -31,9 +31,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use('/users', usersController);
-app.use('/movies', moviesController);
+app.use('/movies', isLoggedIn, moviesController);
 
-// ROOT
+// CUSTOM MIDDLEWARE
+// Check if a user is logged in (used for '/movies..' route)
+function isLoggedIn(req, res, next) {
+  if (req.session.loggedInUser) {
+    return next();
+  } else {
+    req.session.badAttempt = true;
+    res.redirect('/signup');
+  }
+}
+
+// ROOT ROUTE
 app.get('/', function(req, res) {
   res.redirect('/signup');
 });
@@ -44,7 +55,7 @@ app.get('/', function(req, res) {
 // SIGNUP FORM
 // GET /signup
 app.get('/signup', function(req, res) {
-  res.render('users/signup.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, wrongUser: req.session.wrongUser });
+  res.render('users/signup.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, wrongUser: req.session.wrongUser, badAttempt: req.session.badAttempt });
 });
 
 // LOGOUT
