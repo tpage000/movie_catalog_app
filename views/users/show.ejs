@@ -15,16 +15,8 @@
   <body>
     <div class="container">
 
-      <nav>
-        <ul class="nav nav-tabs">
-          <li><a href="/movies/<%= user.id %>/alphabetical_columns">Alphabetical-Columns</a></li>
-          <li><a href="/movies/<%= user.id %>/chronological_columns">Chronological-Columns</a></li>
-          <li><a href="/movies/<%= user.id %>/alphabetical">Alphabetical-List</a></li>
-          <li><a href="/movies/<%= user.id %>/release_date">Chronological-List</a></li>
-          <li><a href="/movies/new">NEW</a></li>
-          <li><a class="logout" href="/logout">Logout</a></li>
-        </ul>
-      </nav>
+      <!-- include ejs template for nav bar-->
+      <%- include ../partials/navigation.ejs %>
 
       <div>
         <h1>Hi <%=user.name %>! So you watched a movie?</h1>

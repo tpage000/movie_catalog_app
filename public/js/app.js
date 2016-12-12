@@ -116,17 +116,14 @@ var getMoreMovieInfoFromOMDB = function() {
 
 // ADDS THE CHOSEN TITLE TO THE USER'S COLLECTION
 var sendMovieDataToServer = function(result) {
-  // Takes the user's id from the url bar, to be used in ajax url --
-  // security-wise this can't be good, but just hold on to your britches:
-  var userId = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
-  // AJAX request to the server with the user's id and the movie information
+  // AJAX request to the server with the movie information (result)
   $.ajax({
     method: 'POST',
-    url: '/movies/' + userId,
+    url: '/movies',
     data: result
   }).done(function(response) {
     // When the request is done, redirect to the new movie show page
-    window.location.href = '/movies/' + response.userId + '/' + response.movieId;
+    window.location.href = '/movies/' + response.movieId;
   });
 } // end sendMovieDataToServer
 

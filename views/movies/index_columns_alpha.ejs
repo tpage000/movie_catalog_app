@@ -19,7 +19,7 @@
       <% Object.keys(movies).forEach(function(letter) { %>
           <h2><%= letter %></h2>
           <% movies[letter].forEach(function(movie) { %>
-            <p><a href="/movies/<%= userId %>/<%= movie.id %>"><%= movie.Title %></a></p>
+            <p><a href="/movies/<%= movie.id %>"><%= movie.Title %></a></p>
           <% }) %>
       <% }); %>
     </div>

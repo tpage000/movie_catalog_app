@@ -34,7 +34,7 @@
                 <span class="star">&#x2B50;</span>
               <% } %>
             </h5>
-            <form action="/movies/<%= userId %>/<%= movie.id %>/update_rating" method="POST">
+            <form action="/movies/<%= movie.id %>/update_rating" method="POST">
               <select class="form-control ratings-select" name="Rating" onchange="this.form.submit();">
                 <% for (var i=0; i <= 5; i++) { %>
                   <% if (movie.Rating == 0 && i == 0) { %>
@@ -58,7 +58,7 @@
               <% movie.DatesWatched.forEach(function(date) { %>
                   <span class="label label-info lb-lg"><%= date.dateString %></span>
               <% }); %>
-              <form action="/movies/<%= userId %>/<%= movie.id %>/update_date" method="POST">
+              <form action="/movies/<%= movie.id %>/update_date" method="POST">
                 <input id="date-input" type="date" name="newDate"/>
                 <button id="add-date-button" type="submit" class="btn btn-default btn-sm">
                   <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add

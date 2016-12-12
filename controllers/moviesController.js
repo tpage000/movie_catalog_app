@@ -24,7 +24,7 @@ router.get('/new', function(req, res) {
 
 // MOVIES INDEX ALPHABETICAL AND WITH COLUMN HEADERS
 // GET /movies/:user_id/alphabetical_columns
-router.get('/:user_id/alphabetical_columns', function(req, res) {
+router.get('/alphabetical_columns', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // alphabetical column movie data is provided using mongoose 'virtual' in models/users.js
     res.render('movies/index_columns_alpha.ejs', { movies: foundUser.moviesColumnsAlpha, userId: foundUser.id });
@@ -33,7 +33,7 @@ router.get('/:user_id/alphabetical_columns', function(req, res) {
 
 // MOVIES INDEX CHRONOLOGICAL AND WITH COLUMN HEADERS
 // GET /movies/:user_id/chronological_columns
-router.get('/:user_id/chronological_columns', function(req, res) {
+router.get('/chronological_columns', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // chronological column movie data is provided using mongoose 'virtual' in models/users.js
     res.render('movies/index_columns_year.ejs', { movies: foundUser.moviesColumnsYear, userId: foundUser.id });
@@ -42,7 +42,7 @@ router.get('/:user_id/chronological_columns', function(req, res) {
 
 // MOVIES INDEX ALPHABETICAL
 // GET /movies/:user_id/alphabetical
-router.get('/:user_id/alphabetical', function(req, res) {
+router.get('/alphabetical', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // alphabetical list of movie data is provided using mongoose 'virtual' in models/users.js
     res.render('movies/index.ejs', { movies: foundUser.moviesAlphabetical, userId: foundUser.id });
@@ -51,7 +51,7 @@ router.get('/:user_id/alphabetical', function(req, res) {
 
 // MOVIES INDEX CHRONOLOGICAL
 // GET /movies/:user_id/release_date
-router.get('/:user_id/release_date', function(req, res) {
+router.get('/release_date', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // chronological list of movie data is provided using mongoose 'virtual' in models/users.js
     res.render('movies/index_year.ejs', { movies: foundUser.moviesChronological, userId: foundUser.id });
@@ -60,7 +60,7 @@ router.get('/:user_id/release_date', function(req, res) {
 
 // MOVIES INDEX BY DATE WATCHED - not implemented
 // GET /movies/:user_id/date_watched
-router.get('/:user_id/date_watched', function(req, res) {
+router.get('/date_watched', function(req, res) {
   res.send('this user\'s movies date watched');
 });
 
@@ -73,21 +73,21 @@ router.get('/:movie_id/json', function(req, res) {
 
 // SHOW A USER'S MOVIE
 // GET /movies/:user_id/:movie_id
-router.get('/:user_id/:movie_id', function(req, res) {
+router.get('/:movie_id', function(req, res) {
   Movie.findById(req.params.movie_id, function(err, foundMovie) {
     // res.send(foundMovie);
-    res.render('movies/show.ejs', { movie: foundMovie, userId: req.params.user_id });
+    res.render('movies/show.ejs', { movie: foundMovie });
   });
 });
 
 // CREATE NEW MOVIE
 // POST /movies/:user_id
-router.post('/:user_id', function(req, res) {
+router.post('/', function(req, res) {
   Movie.create(req.body, function(err, createdMovie) {
     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
       foundUser.movies.push(createdMovie);
       foundUser.save(function(err, savedUser) {
-        res.send({ userId: savedUser.id, movieId: createdMovie.id });
+        res.send({ movieId: createdMovie.id });
       }); // end foundUser.save()
     }); // end User.findByID()
   }); // end Movie.create()
@@ -101,7 +101,7 @@ router.post('/:user_id/:movie_id/update_rating', function(req, res) {
       foundUser.movies.id(req.params.movie_id).remove();
       foundUser.movies.push(updatedMovie);
       foundUser.save(function(err, savedUser) {
-        res.redirect('/movies/' + req.session.loggedInUser.id + '/' + updatedMovie.id);
+        res.redirect('/movies/' + updatedMovie.id);
       });
     });
   });
@@ -126,7 +126,7 @@ router.post('/:user_id/:movie_id/update_date', function(req, res) {
         foundUser.movies.id(req.params.movie_id).remove();
         foundUser.movies.push(savedMovie);
         foundUser.save(function(err, savedUser) {
-          res.redirect('/movies/' + req.session.loggedInUser.id + '/' + savedMovie.id);
+          res.redirect('/movies/' + savedMovie.id);
         });
       });
     });

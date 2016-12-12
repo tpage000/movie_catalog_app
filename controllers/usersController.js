@@ -5,21 +5,6 @@ var router = express.Router();
 // MODELS
 var User = require('../models/users');
 
-// ==========================================================
-// MAIN PAGE
-// USER SHOW - loads a page to make AJAX requests to OMDB API
-// GET /users/:id
-// router.get('/:id', function(req, res) {
-//   User.findById(req.session.loggedInUser.id, function(err, userData) {
-//     if (req.session.currentUser == userData.name) {
-//       res.render('users/show.ejs', { user: userData });
-//     } else {
-//       res.redirect('/signup');
-//     }
-//   });
-// });
-// =========================================================
-
 //==========================================================
 // SET SESSION DATA
 
