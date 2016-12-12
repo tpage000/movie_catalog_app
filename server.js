@@ -20,6 +20,7 @@ mongoose.connection.once('open', function() {
 var moviesController = require('./controllers/moviesController');
 var usersController = require('./controllers/usersController');
 
+//==============================================================
 // MIDDLEWARE
 app.use(session({
   secret: 'braingremlin',
@@ -43,6 +44,7 @@ function isLoggedIn(req, res, next) {
     res.redirect('/signup');
   }
 }
+//====================================================================
 
 // ROOT ROUTE
 app.get('/', function(req, res) {
