@@ -17,11 +17,18 @@
 
       <!-- include ejs template for nav bar-->
       <%- include ../partials/navigation.ejs %>
+      <div class="text-center">
+        <img src="http://image.flaticon.com/icons/png/128/54/54335.png"/>
+      </div>
+
+      <div class="movie-number-message text-center">
+        <p>Hi <%=user.name %>! You've watched at least <%= user.movies.length %> movies in your life!</p>
+      </div>
 
       <div>
-        <h1>Hi <%=user.name %>! So you watched a movie?</h1>
+        <h1 class="text-center">So you watched a movie?</h1>
         <div class="row">
-          <div class="col-lg-6">
+          <div class="col-lg-6 col-lg-offset-3">
             <div class="input-group">
               <input id="input-box" type="text" class="form-control" placeholder="movie title . . .">
               <span class="input-group-btn">

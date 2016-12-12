@@ -58,3 +58,9 @@ body {
 .star {
   font-size: 40px;
 }
+
+.movie-number-message {
+  color: dimgrey;
+  margin-top: 1%;
+  margin-left: 1%;
+}
