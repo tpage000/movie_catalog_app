@@ -16,6 +16,7 @@
       <h1>MOVIES - Chronological</h1>
       <!-- parse through columns object -->
       <% Object.keys(movies).forEach(function(year) { %>
+        <div class="movie-list">
           <h2><%= year %></h2>
           <% movies[year].forEach(function(movie) { %>
             <p><a href="/movies/<%= movie.id %>"><%= movie.Title %></a>
@@ -24,6 +25,7 @@
               <% } %>
             </p>
           <% }); %>
+        </div>
       <% }); %>
     </div>
   </body>
