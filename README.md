@@ -16,7 +16,7 @@
 ----
 ### Main code to implement:
 
-- Removing user ids from the url now that sessions are implemented (full routing refactor)
+- Check logged in status on each route
 
 - Validation for checking if a movie already exists before add
 
@@ -34,6 +34,8 @@
 ### Features coming soon:
 
 * List movies according to watch date
+
+* Remove unwanted dates
 
 * Add reviews / comments to your movies so you can remember what you were thinking at the time
 
