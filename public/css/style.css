@@ -67,6 +67,7 @@ body {
 
 .movie-list {
   display: inline-block;
-  margin-right: 5%;
+  width: 14%;
+  margin-right: 2%;
   vertical-align: top;
 }

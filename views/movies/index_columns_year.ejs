@@ -20,9 +20,6 @@
           <h2><%= year %></h2>
           <% movies[year].forEach(function(movie) { %>
             <p><a href="/movies/<%= movie.id %>"><%= movie.Title %></a>
-              <% for (var i=0; i < movie.Rating; i ++) { %>
-                <small>&#x2B50;</small>
-              <% } %>
             </p>
           <% }); %>
         </div>
