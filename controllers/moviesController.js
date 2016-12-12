@@ -12,18 +12,14 @@ var User = require('../models/users');
 // GET /movies/new
 router.get('/new', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, userData) {
-    if (req.session.currentUser == userData.name) {
-      res.render('users/show.ejs', { user: userData });
-    } else {
-      res.redirect('/signup');
-    }
+    res.render('users/show.ejs', { user: userData });
   });
 });
 // =========================================================
 
 
 // MOVIES INDEX ALPHABETICAL AND WITH COLUMN HEADERS
-// GET /movies/:user_id/alphabetical_columns
+// GET /movies/alphabetical_columns
 router.get('/alphabetical_columns', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // alphabetical column movie data is provided using mongoose 'virtual' in models/users.js
@@ -32,7 +28,7 @@ router.get('/alphabetical_columns', function(req, res) {
 });
 
 // MOVIES INDEX CHRONOLOGICAL AND WITH COLUMN HEADERS
-// GET /movies/:user_id/chronological_columns
+// GET /movies/chronological_columns
 router.get('/chronological_columns', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // chronological column movie data is provided using mongoose 'virtual' in models/users.js
@@ -41,7 +37,7 @@ router.get('/chronological_columns', function(req, res) {
 });
 
 // MOVIES INDEX ALPHABETICAL
-// GET /movies/:user_id/alphabetical
+// GET /movies/alphabetical
 router.get('/alphabetical', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // alphabetical list of movie data is provided using mongoose 'virtual' in models/users.js
@@ -50,7 +46,7 @@ router.get('/alphabetical', function(req, res) {
 });
 
 // MOVIES INDEX CHRONOLOGICAL
-// GET /movies/:user_id/release_date
+// GET /movies/release_date
 router.get('/release_date', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // chronological list of movie data is provided using mongoose 'virtual' in models/users.js
@@ -59,7 +55,7 @@ router.get('/release_date', function(req, res) {
 });
 
 // MOVIES INDEX BY DATE WATCHED - not implemented
-// GET /movies/:user_id/date_watched
+// GET /movies/date_watched
 router.get('/date_watched', function(req, res) {
   res.send('this user\'s movies date watched');
 });
@@ -72,7 +68,7 @@ router.get('/:movie_id/json', function(req, res) {
 });
 
 // SHOW A USER'S MOVIE
-// GET /movies/:user_id/:movie_id
+// GET /movies/:movie_id
 router.get('/:movie_id', function(req, res) {
   Movie.findById(req.params.movie_id, function(err, foundMovie) {
     // res.send(foundMovie);
@@ -81,7 +77,7 @@ router.get('/:movie_id', function(req, res) {
 });
 
 // CREATE NEW MOVIE
-// POST /movies/:user_id
+// POST /movies
 router.post('/', function(req, res) {
   Movie.create(req.body, function(err, createdMovie) {
     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
@@ -95,6 +91,7 @@ router.post('/', function(req, res) {
 
 
 // UPDATE MOVIE Rating
+// POST /movies/:movie_id/update_rating
 router.post('/:movie_id/update_rating', function(req, res) {
   Movie.findByIdAndUpdate(req.params.movie_id, { $set: req.body }, { new: true }, function(err, updatedMovie) {
     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
@@ -108,6 +105,7 @@ router.post('/:movie_id/update_rating', function(req, res) {
 });
 
 // UPDATE MOVIE DatesWatched array
+// POST /movies/:movie_id/update_date
 router.post('/:movie_id/update_date', function(req, res) {
   // Incoming date is formatted with dashes: 2016-12-11
   // If dashes are used in new Date() it will give you yesterday's date.
