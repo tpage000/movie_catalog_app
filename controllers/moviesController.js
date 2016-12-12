@@ -6,6 +6,22 @@ var router = express.Router();
 var Movie = require('../models/movies');
 var User = require('../models/users');
 
+// ==========================================================
+// MAIN PAGE
+// NEW MOVIE - loads a page to make AJAX requests to OMDB API
+// GET /movies/new
+router.get('/new', function(req, res) {
+  User.findById(req.session.loggedInUser.id, function(err, userData) {
+    if (req.session.currentUser == userData.name) {
+      res.render('users/show.ejs', { user: userData });
+    } else {
+      res.redirect('/signup');
+    }
+  });
+});
+// =========================================================
+
+
 // MOVIES INDEX ALPHABETICAL AND WITH COLUMN HEADERS
 // GET /movies/:user_id/alphabetical_columns
 router.get('/:user_id/alphabetical_columns', function(req, res) {

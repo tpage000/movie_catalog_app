@@ -9,15 +9,15 @@ var User = require('../models/users');
 // MAIN PAGE
 // USER SHOW - loads a page to make AJAX requests to OMDB API
 // GET /users/:id
-router.get('/:id', function(req, res) {
-  User.findById(req.session.loggedInUser.id, function(err, userData) {
-    if (req.session.currentUser == userData.name) {
-      res.render('users/show.ejs', { user: userData });
-    } else {
-      res.redirect('/signup');
-    }
-  });
-});
+// router.get('/:id', function(req, res) {
+//   User.findById(req.session.loggedInUser.id, function(err, userData) {
+//     if (req.session.currentUser == userData.name) {
+//       res.render('users/show.ejs', { user: userData });
+//     } else {
+//       res.redirect('/signup');
+//     }
+//   });
+// });
 // =========================================================
 
 //==========================================================
@@ -42,7 +42,7 @@ router.post('/', function(req, res) {
       req.session.loggedInUser = { name: newUser.name, id: newUser.id }
       console.log('session: ', req.session.loggedInUser);
       req.session.currentUser = newUser.name;
-      res.redirect('/users/' + newUser.id);
+      res.redirect('/movies/new');
     }
   });
 }); // end user create
@@ -70,7 +70,7 @@ router.post('/login', function(req, res) {
       req.session.loggedInUser = { name: foundUser.name, id: foundUser.id }
       console.log('session: ', req.session.loggedInUser);
       req.session.currentUser = foundUser.name;
-      res.redirect('/users/' + foundUser.id);
+      res.redirect('/movies/new');
     // if password does not match:
     } else {
       req.session.userTaken = false;

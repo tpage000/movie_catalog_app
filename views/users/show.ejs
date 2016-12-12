@@ -3,16 +3,12 @@
   <head>
     <meta charset="utf-8">
     <title>Movie Catalog App</title>
-
     <!-- BOOTSTRAP CDN -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
     <!-- PROJECT CSS    -->
     <link rel="stylesheet" href="/css/style.css">
-
     <!-- JQUERY CDN -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-
     <!-- PROJECT JS -->
     <script type="text/javascript" src="/js/app.js"></script>
   </head>
@@ -25,7 +21,7 @@
           <li><a href="/movies/<%= user.id %>/chronological_columns">Chronological-Columns</a></li>
           <li><a href="/movies/<%= user.id %>/alphabetical">Alphabetical-List</a></li>
           <li><a href="/movies/<%= user.id %>/release_date">Chronological-List</a></li>
-          <li><a href="/users/<%= user.id %>">NEW</a></li>
+          <li><a href="/movies/new">NEW</a></li>
           <li><a class="logout" href="/logout">Logout</a></li>
         </ul>
       </nav>
