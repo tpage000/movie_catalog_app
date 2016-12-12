@@ -16,8 +16,6 @@
 ----
 ### Main code to implement:
 
-- Check logged in status on each route
-
 - Validation for checking if a movie already exists before add
 
 - If movie is not found on OMDB, provide a form to add a movie manually
@@ -33,7 +31,7 @@
 ----
 ### Features coming soon:
 
-* List movies according to watch date
+* List movies according to watch date (but watch dates do now exist)
 
 * Remove unwanted dates
 
