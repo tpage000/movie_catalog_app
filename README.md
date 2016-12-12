@@ -42,7 +42,7 @@
 ----
 ### Bugs / Gremlins / Errors:
 
-* none reported yet
+* Submitting a 'date' of 'mm/dd/yyyy' puts 'Invalid Date undefined undefined' on the page.
 
 <br>
 
