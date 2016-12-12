@@ -27,7 +27,7 @@ router.get('/new', function(req, res) {
 router.get('/alphabetical_columns', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // alphabetical column movie data is provided using mongoose 'virtual' in models/users.js
-    res.render('movies/index_columns_alpha.ejs', { movies: foundUser.moviesColumnsAlpha, userId: foundUser.id });
+    res.render('movies/index_columns_alpha.ejs', { movies: foundUser.moviesColumnsAlpha });
   });
 });
 
@@ -36,7 +36,7 @@ router.get('/alphabetical_columns', function(req, res) {
 router.get('/chronological_columns', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // chronological column movie data is provided using mongoose 'virtual' in models/users.js
-    res.render('movies/index_columns_year.ejs', { movies: foundUser.moviesColumnsYear, userId: foundUser.id });
+    res.render('movies/index_columns_year.ejs', { movies: foundUser.moviesColumnsYear });
   });
 });
 
@@ -45,7 +45,7 @@ router.get('/chronological_columns', function(req, res) {
 router.get('/alphabetical', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // alphabetical list of movie data is provided using mongoose 'virtual' in models/users.js
-    res.render('movies/index.ejs', { movies: foundUser.moviesAlphabetical, userId: foundUser.id });
+    res.render('movies/index.ejs', { movies: foundUser.moviesAlphabetical });
   });
 });
 
@@ -54,7 +54,7 @@ router.get('/alphabetical', function(req, res) {
 router.get('/release_date', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // chronological list of movie data is provided using mongoose 'virtual' in models/users.js
-    res.render('movies/index_year.ejs', { movies: foundUser.moviesChronological, userId: foundUser.id });
+    res.render('movies/index_year.ejs', { movies: foundUser.moviesChronological });
   });
 });
 
@@ -95,7 +95,7 @@ router.post('/', function(req, res) {
 
 
 // UPDATE MOVIE Rating
-router.post('/:user_id/:movie_id/update_rating', function(req, res) {
+router.post('/:movie_id/update_rating', function(req, res) {
   Movie.findByIdAndUpdate(req.params.movie_id, { $set: req.body }, { new: true }, function(err, updatedMovie) {
     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
       foundUser.movies.id(req.params.movie_id).remove();
@@ -108,7 +108,7 @@ router.post('/:user_id/:movie_id/update_rating', function(req, res) {
 });
 
 // UPDATE MOVIE DatesWatched array
-router.post('/:user_id/:movie_id/update_date', function(req, res) {
+router.post('/:movie_id/update_date', function(req, res) {
   // Incoming date is formatted with dashes: 2016-12-11
   // If dashes are used in new Date() it will give you yesterday's date.
   // Convert dashes to slashes to get the proper date:

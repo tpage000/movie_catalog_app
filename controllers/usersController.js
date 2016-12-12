@@ -25,7 +25,6 @@ router.post('/', function(req, res) {
       req.session.wrongUser = '';
       req.session.userTaken = false;
       req.session.loggedInUser = { name: newUser.name, id: newUser.id }
-      console.log('session: ', req.session.loggedInUser);
       req.session.currentUser = newUser.name;
       res.redirect('/movies/new');
     }
@@ -53,7 +52,6 @@ router.post('/login', function(req, res) {
       req.session.wrongUser = '';
       req.session.wrongPass = false;
       req.session.loggedInUser = { name: foundUser.name, id: foundUser.id }
-      console.log('session: ', req.session.loggedInUser);
       req.session.currentUser = foundUser.name;
       res.redirect('/movies/new');
     // if password does not match:
