@@ -30,8 +30,16 @@ body {
     margin-bottom: 1em;
 }
 
-.logout {
+.nav-grey-link {
   color: dimgrey;
+}
+
+.nav-new-link {
+  color: #d9534f;
+}
+
+.nav-main-link {
+  color: black;
 }
 
 .form-bg {
