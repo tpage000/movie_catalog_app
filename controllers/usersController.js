@@ -10,7 +10,7 @@ var User = require('../models/users');
 // USER SHOW - loads a page to make AJAX requests to OMDB API
 // GET /users/:id
 router.get('/:id', function(req, res) {
-  User.findById(req.params.id, function(err, userData) {
+  User.findById(req.session.loggedInUser.id, function(err, userData) {
     if (req.session.currentUser == userData.name) {
       res.render('users/show.ejs', { user: userData });
     } else {
@@ -20,6 +20,8 @@ router.get('/:id', function(req, res) {
 });
 // =========================================================
 
+//==========================================================
+// SET SESSION DATA
 
 // CREATE USER - data comes from signup page
 // POST /users
@@ -37,6 +39,8 @@ router.post('/', function(req, res) {
       req.session.wrongPass = false;
       req.session.wrongUser = '';
       req.session.userTaken = false;
+      req.session.loggedInUser = { name: newUser.name, id: newUser.id }
+      console.log('session: ', req.session.loggedInUser);
       req.session.currentUser = newUser.name;
       res.redirect('/users/' + newUser.id);
     }
@@ -63,6 +67,8 @@ router.post('/login', function(req, res) {
       req.session.userTaken = false;
       req.session.wrongUser = '';
       req.session.wrongPass = false;
+      req.session.loggedInUser = { name: foundUser.name, id: foundUser.id }
+      console.log('session: ', req.session.loggedInUser);
       req.session.currentUser = foundUser.name;
       res.redirect('/users/' + foundUser.id);
     // if password does not match:
@@ -74,6 +80,7 @@ router.post('/login', function(req, res) {
     }
   });
 });
+// =================================================================
 
 // EXPORT THE ROUTER - required in server.js and used as middleware for '/users'
 module.exports = router;
