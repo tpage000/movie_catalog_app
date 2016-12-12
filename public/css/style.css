@@ -42,6 +42,10 @@ body {
   color: black;
 }
 
+.nav-home-link {
+  width: 20px;
+}
+
 .form-bg {
   background-color: #E3E3E3;
 }
