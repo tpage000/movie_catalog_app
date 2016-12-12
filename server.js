@@ -25,7 +25,8 @@ var usersController = require('./controllers/usersController');
 app.use(session({
   secret: 'braingremlin',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  maxAge: 2592000000
 }));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -44,6 +45,14 @@ function isLoggedIn(req, res, next) {
     res.redirect('/signup');
   }
 }
+// if a user is logged in, they can skip the signup page (used for '/signup' route)
+function skipLogIn(req, res, next) {
+  if (req.session.loggedInUser) {
+    res.redirect('/movies/new');
+  } else {
+    return next();
+  }
+}
 //====================================================================
 
 // ROOT ROUTE
@@ -56,7 +65,7 @@ app.get('/', function(req, res) {
 
 // SIGNUP FORM
 // GET /signup
-app.get('/signup', function(req, res) {
+app.get('/signup', skipLogIn, function(req, res) {
   res.render('users/signup.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, wrongUser: req.session.wrongUser, badAttempt: req.session.badAttempt });
 });
 
