@@ -116,6 +116,33 @@ userSchema.virtual('moviesColumnsYear').get(function() {
   return obj;
 });
 
+// Virtual for sorting all movies by DatesWatched
+// Movies can have multiple watch dates and therefore need separate entries for each
+userSchema.virtual('moviesRecent').get(function() {
+
+  var separateMovies = function(data) {
+    var allDatesByMovie = [];
+    data.forEach(function(movie) {
+      movie.DatesWatched.forEach(function(date) {
+        allDatesByMovie.push({ id: movie._id, title: movie.Title, dateString: date.dateString, yymmdd: date.yymmdd });
+      });
+    });
+    return sortMoviesByDate(allDatesByMovie);
+  }
+
+  var sortMoviesByDate = function(movieList) {
+    movieList.sort(function(a, b) {
+      if (a.yymmdd < b.yymmdd) return 1;
+      if (a.yymmdd > b.yymmdd) return -1;
+      return 0;
+    })
+    return movieList;
+  }
+
+  return separateMovies(this.movies);
+
+});
+
 // ===============================================================
 
 // Create the User model
