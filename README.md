@@ -24,9 +24,7 @@
 
 - Eventually make the landing page something other than signup / login.
 
-- Formatting the alphabetical movie list view in rows and columns (rather than a big ole scroll down), to facilitate larger data sets
-
-- Formatting the chronological movie list view in rows and columns with tabs for flipping between years, to facilitate larger data sets
+- Formatting the chronological movie list view with tabs for flipping between years, to facilitate larger data sets
 
 ----
 ### Features coming soon:
@@ -39,10 +37,12 @@
 
 * List movies by rating only (currently they are listed by rating within each chronological year)
 
+* Try out some kinda resizing / zoom on the data sets
+
 ----
 ### Bugs / Gremlins / Errors:
 
-* Submitting a 'date' of 'mm/dd/yyyy' puts 'Invalid Date undefined undefined' on the page.
+* None right now
 
 <br>
 
