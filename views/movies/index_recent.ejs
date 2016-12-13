@@ -15,7 +15,12 @@
 
       <h1>MOVIES - Recent</h1>
       <% movies.forEach(function(movie) { %>
-        <h3><a href="/movies/<%= movie.id %>"><%=movie.dateString %><%= movie.Title %></a></h3>
+        <h3>On <%=movie.dateString %> you watched
+          <a href="/movies/<%= movie.id %>"><%= movie.Title %></a>
+          <% for (var i=0; i < movie.Rating; i++)  { %>
+            <span>&#x2B50;</span>
+          <% } %>
+        </h3>
       <% }) %>
     </div>
   </body>
