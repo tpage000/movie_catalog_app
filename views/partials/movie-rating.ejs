@@ -1,0 +1,18 @@
+<h5>Your rating:
+  <% for (var i=0; i < movie.Rating; i ++) { %>
+    <span class="star">&#x2B50;</span>
+  <% } %>
+</h5>
+<form action="/movies/<%= movie.id %>/update_rating" method="POST">
+  <select class="form-control ratings-select" name="Rating" onchange="this.form.submit();">
+    <% for (var i=0; i <= 5; i++) { %>
+      <% if (movie.Rating == 0 && i == 0) { %>
+        <option value="<%= i %>">none</option>
+      <% } else if (movie.Rating == i) { %>
+        <option value="<%= i %>" selected><%= i %></option>
+      <% } else { %>
+        <option value="<%= i %>"><%= i %></option>
+      <% } %>
+    <% } %>
+  </select>
+</form>

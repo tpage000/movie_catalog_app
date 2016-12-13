@@ -1,0 +1,16 @@
+<div id="dates-container">
+  <h5>Dates watched:
+    <% if (movie.DatesWatched.length == 0) { %>
+      <span>Add a date</span>
+    <% } %>
+  </h5>
+  <% movie.DatesWatched.forEach(function(date) { %>
+      <span class="label label-info lb-lg"><%= date.dateString %></span>
+  <% }); %>
+  <form action="/movies/<%= movie.id %>/update_date" method="POST">
+    <input id="date-input" type="date" name="newDate" required/>
+    <button id="add-date-button" type="submit" class="btn btn-default btn-sm">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+    </button>
+  </form>
+</div> <!-- end dates container -->

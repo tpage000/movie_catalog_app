@@ -14,73 +14,32 @@
   </head>
   <body>
     <div class="container">
-      <!-- include ejs template for nav nav bar-->
+      <!-- NAV BAR -->
       <%- include ../partials/navigation.ejs %>
-
-      <div>
-        <h1><%= movie.Title %></h1>
-        <h4><%= movie.Year %></h4>
-        <div class="row">
-          <div class="col-sm-6">
-            <img src="<%= movie.Poster %>"/>
-          </div> <!-- end col -->
-          <div class="col-sm-6">
-            <h4>Directed by: <%= movie.Director %></h4>
-            <h5>Written by: <%= movie.Writer %></h5>
-            <p><%= movie.Plot %></p>
-            <hr>
-            <h5>Your rating:
-              <% for (var i=0; i < movie.Rating; i ++) { %>
-                <span class="star">&#x2B50;</span>
-              <% } %>
-            </h5>
-            <form action="/movies/<%= movie.id %>/update_rating" method="POST">
-              <select class="form-control ratings-select" name="Rating" onchange="this.form.submit();">
-                <% for (var i=0; i <= 5; i++) { %>
-                  <% if (movie.Rating == 0 && i == 0) { %>
-                    <option value="<%= i %>">none</option>
-                  <% } else if (movie.Rating == i) { %>
-                    <option value="<%= i %>" selected><%= i %></option>
-                  <% } else { %>
-                    <option value="<%= i %>"><%= i %></option>
-                  <% } %>
-                <% } %>
-              </select>
-            </form>
-            <p></p>
-            <hr>
-            <div id="dates-container">
-              <h5>Dates watched:
-                <% if (movie.DatesWatched.length == 0) { %>
-                  <span>Add a date</span>
-                <% } %>
-              </h5>
-              <% movie.DatesWatched.forEach(function(date) { %>
-                  <span class="label label-info lb-lg"><%= date.dateString %></span>
-              <% }); %>
-              <form action="/movies/<%= movie.id %>/update_date" method="POST">
-                <input id="date-input" type="date" name="newDate" required/>
-                <button id="add-date-button" type="submit" class="btn btn-default btn-sm">
-                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-                </button>
-              </form>
-            </div> <!-- end dates container -->
-            <hr>
-            <div id="reviews-container">
-              <h5>Your reviews:
-                <button id="add-review-button" type="button" class="btn btn-default btn-sm">
-                  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-                </button>
-              </h5>
-              <%= movie.Reviews %>
-            </div> <!-- end reviews container -->
-            <hr>
-            <small><a href="/movies/alphabetical_columns">See your movies</a><small>
-          </div> <!-- end col -->
-        </div> <!-- end row -->
-
-      </div>
-
+      <!-- MAIN CONTENT -->
+      <h1><%= movie.Title %></h1>
+      <h4><%= movie.Year %></h4>
+      <div class="row">
+        <div class="col-sm-6">
+          <img src="<%= movie.Poster %>"/>
+        </div> <!-- end col -->
+        <div class="col-sm-6">
+          <h4>Directed by: <%= movie.Director %></h4>
+          <h5>Written by: <%= movie.Writer %></h5>
+          <p><%= movie.Plot %></p>
+          <hr>
+          <!-- MOVIE RATING SECTION -->
+          <%- include ../partials/movie-rating.ejs %>
+          <hr>
+          <!-- MOVIES DATES WATCHED SECTION -->
+          <%- include ../partials/movie-dates-watched.ejs %>
+          <hr>
+          <!-- MOVIE REVIEWS SECTION -->
+          <%- include ../partials/movie-reviews.ejs %>
+          <hr>
+          <small><a href="/movies/alphabetical_columns">See your movies</a><small>
+        </div> <!-- end col -->
+      </div> <!-- end row -->
     </div> <!-- end container -->
   </body>
 </html>
