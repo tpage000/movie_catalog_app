@@ -26,10 +26,6 @@
 ----
 ### Features coming:
 
-* List movies by recent viewing
-
-
-
 * Add reviews / comments to your movies so you can remember what you were thinking at the time
 
 * List movies by rating only (currently they are listed by rating within each chronological year)
