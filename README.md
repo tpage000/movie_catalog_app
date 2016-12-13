@@ -16,16 +16,18 @@
 ----
 ### Main things to implement:
 
-- Validation for checking if a movie already exists before add
+* Validation for checking if a movie already exists before add
 
-- If movie is not found on OMDB, provide a form to add a movie manually
+* If movie is not found on OMDB, provide a form to add a movie manually
+
+* Remove unwanted dates
 
 ----
 ### Features coming:
 
 * List movies by recent viewing
 
-* Remove unwanted dates
+
 
 * Add reviews / comments to your movies so you can remember what you were thinking at the time
 
