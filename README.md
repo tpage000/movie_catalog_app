@@ -14,22 +14,16 @@
 	* OMDB api for movie data
 
 ----
-### Main code to implement:
+### Main things to implement:
 
 - Validation for checking if a movie already exists before add
 
 - If movie is not found on OMDB, provide a form to add a movie manually
 
-- Removing an added movie
-
-- Eventually make the landing page something other than signup / login.
-
-- Formatting the chronological movie list view with tabs for flipping between years, to facilitate larger data sets
-
 ----
-### Features coming soon:
+### Features coming:
 
-* List movies according to watch date (but watch dates do now exist)
+* List movies by recent viewing
 
 * Remove unwanted dates
 
@@ -38,6 +32,10 @@
 * List movies by rating only (currently they are listed by rating within each chronological year)
 
 * Try out some kinda resizing / zoom on the data sets
+
+* Eventually make the landing page something other than signup / login.
+
+* Formatting the chronological movie list view with tabs for flipping between years, to facilitate larger data sets
 
 ----
 ### Bugs / Gremlins / Errors:
