@@ -55,9 +55,11 @@ router.get('/release_date', function(req, res) {
 });
 
 // MOVIES INDEX BY DATE WATCHED - not implemented
-// GET /movies/date_watched
-router.get('/date_watched', function(req, res) {
-  res.send('this user\'s movies date watched');
+// GET /movies/recent
+router.get('/recent', function(req, res) {
+  User.findById(req.session.loggedInUser.id, function(err, foundUser) {
+    res.send(foundUser.moviesByDate);
+  });
 });
 
 // SHOW MOVIE JSON
