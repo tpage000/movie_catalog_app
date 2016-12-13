@@ -131,5 +131,19 @@ router.post('/:movie_id/update_date', function(req, res) {
   });
 });
 
+// DELETE MOVIE
+// DELETE /movies/:movie_id
+router.delete('/:movie_id', function(req, res) {
+  Movie.findByIdAndRemove(req.params.movie_id, function(err, removedMovie) {
+    User.findById(req.session.loggedInUser.id, function(userErr, foundUser) {
+      foundUser.movies.id(req.params.movie_id).remove();
+      foundUser.save(function(savedUserErr, savedUser) {
+        res.redirect('/movies/alphabetical_columns');
+      });
+    });
+  });
+});
+
+
 // EXPORT THE ROUTER - required in server.js and then used as middleware
 module.exports = router;
