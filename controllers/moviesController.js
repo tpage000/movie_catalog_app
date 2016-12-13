@@ -71,8 +71,11 @@ router.get('/:movie_id/json', function(req, res) {
 // GET /movies/:movie_id
 router.get('/:movie_id', function(req, res) {
   Movie.findById(req.params.movie_id, function(err, foundMovie) {
-    // res.send(foundMovie);
-    res.render('movies/show.ejs', { movie: foundMovie });
+    if (err) {
+      res.redirect('/movies/new');
+    } else {
+      res.render('movies/show.ejs', { movie: foundMovie });
+    }
   });
 });
 
