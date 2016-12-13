@@ -124,7 +124,7 @@ userSchema.virtual('moviesRecent').get(function() {
     var allDatesByMovie = [];
     data.forEach(function(movie) {
       movie.DatesWatched.forEach(function(date) {
-        allDatesByMovie.push({ id: movie._id, title: movie.Title, dateString: date.dateString, yymmdd: date.yymmdd });
+        allDatesByMovie.push({ id: movie._id, Title: movie.Title, dateString: date.dateString, yymmdd: date.yymmdd });
       });
     });
     return sortMoviesByDate(allDatesByMovie);
