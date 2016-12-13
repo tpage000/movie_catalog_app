@@ -37,7 +37,11 @@
           <!-- MOVIE REVIEWS SECTION -->
           <%- include ../partials/movie-reviews.ejs %>
           <hr>
-          <small><a href="/movies/alphabetical_columns">See your movies</a><small>
+          <small><a href="/movies/alphabetical_columns">See your movies</a></small>
+          <hr>
+          <form action="/movies/<%= movie.id %>?_method=DELETE" method="POST">
+            <input type="image" src="http://www.magturf.com/media/icons/nav/trash-can.png" onclick="return confirm('Are you sure?')"/>
+          </form>
         </div> <!-- end col -->
       </div> <!-- end row -->
     </div> <!-- end container -->

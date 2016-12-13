@@ -1,9 +1,10 @@
 // DEPENDENCIES
-var express     = require('express'),
-    app         = express(),
-    bodyParser  = require('body-parser'),
-    mongoose    = require('mongoose'),
-    session     = require('express-session');
+var express        = require('express'),
+    app            = express(),
+    bodyParser     = require('body-parser'),
+    methodOverride = require('method-override'),
+    mongoose       = require('mongoose'),
+    session        = require('express-session');
 
 // PORT
 var port = process.env.PORT || 3000;
@@ -31,6 +32,7 @@ app.use(session({
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(methodOverride('_method'));
 
 app.use('/users', usersController);
 app.use('/movies', isLoggedIn, moviesController);
