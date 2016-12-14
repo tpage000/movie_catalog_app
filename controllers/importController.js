@@ -40,7 +40,7 @@ var getNextKey = function(user) {
 }
 
 // getMovies is the first function in the chain to run. Invoked within the /imports/seed route below.
-// getMovies is recusive: the 'count' parameter starts at zero upon invocation and is increased before getMovies is re-called.
+// getMovies is recursive: the 'count' parameter starts at zero upon invocation and is increased before getMovies is re-called.
 // When the 'count' value reaches the value in 'lim', below, the next Year is grabbed from getNextKey and the recursive process begins again.
 var getMovies = function(count, user) {
   // getMovies is recursive: the lim variable holds how many times it should run
@@ -62,13 +62,13 @@ var getMovies = function(count, user) {
         // if the movie title is spelled incorrectly, or the year and title do not match, or the movie is not on OMDB:
         // log the error and move on to the next movie
         if (parsedBody.Response == "false") {
-          console.warn('NOT FOUND: ', title, year);
+          console.warn('NOT FOUND: ', year, title);
           count++;
           if (count == lim) { return getNextKey(user); }
           getMovies(count, user);
         // if OMDB returns the movie data:
         } else {
-          // Begin adding the OMDB data to the db
+          // Begin adding the OMDB data to the Mongo db
           Movie.create(parsedBody, function(err, createdMovie) {
             // 'user' comes in as a parameter for getMovies, originally sent in when getMovies is invoked in the /import/seed route,
             // and sent in subsequently from the getNextKey function. This is to avoid .find-ing the user in Mongo every single time the
@@ -78,7 +78,7 @@ var getMovies = function(count, user) {
               // Log of the movie added when all the Mongo db processes have completed and are OK:
               console.log(createdMovie.Year + ' ' + createdMovie.Title + ' added . . .');
               // Increase count for the next recursive call. Used both for getting the index value of the next movie to find, and to determine
-              // when the recursive loop shuld move on to the next top-level key (Year)
+              // when the recursive loop should move on to the next top-level key (Year)
               count++;
               // if all the movies for this year have been added, move on to the next year (the next top-level key in the data object)
               if (count == lim) { return getNextKey(user); }
@@ -98,11 +98,11 @@ var getMovies = function(count, user) {
   });// REQUEST MODULE ENDS HERE
 } // end getMovies
 
-// Only 'Thom' can get anything out of visiting this route.
+// Only 'admin' can get anything out of visiting this route.
 // The route starts a potentially large chain of ajax requests, so . . .
 // GET /import/seed
 router.get('/seed', function(req, res) {
-  if (req.session.loggedInUser.name === 'Thom') {
+  if (req.session.loggedInUser.name === 'admin') {
     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
       if (!err) {
         // Invoke recursive function chain to make async requests
