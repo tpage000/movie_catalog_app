@@ -47,8 +47,9 @@ var getNextKey = function(user) {
 }
 
 // getMovies is the first function in the chain to run. Invoked within the /imports/seed route below.
-// getMovies is recursive: the 'count' parameter starts at zero upon invocation and is increased before getMovies is re-called.
-// When the 'count' value reaches the value in 'lim', below, the next Year is grabbed from getNextKey and the recursive process begins again.
+// getMovies is recursive: the 'count' parameter starts at zero upon invocation and is increased
+// before getMovies is re-called. When the 'count' value reaches the value in 'lim', below, the next
+// Year is grabbed from getNextKey and the recursive process begins again.
 var getMovies = function(count, user) {
   // getMovies is recursive: the lim variable holds how many times it should run
   var lim = DATA[globalCurrentKey].length;
@@ -58,10 +59,12 @@ var getMovies = function(count, user) {
   var year = globalCurrentKey;
 
   // REQUEST MODULE BEGINS HERE
-  // Make request to OMDB with _both_ title and year in the URL. Both values are need to get the desired movie, unless you do want the 2014
-  // version of RoboCop instead of the 1987 version. The other way to get specific movies is by imdb id which I might implement at some other time.
+  // Make request to OMDB with _both_ title and year in the URL. Both values are need to get the desired
+  // movie, unless you do want the 2014 version of RoboCop instead of the 1987 version. The other way to
+  // get specific movies is by imdb id which I might implement at some other time.
   request({
-    url: 'https://www.omdbapi.com/?t=' + title + '&y=' + year + '&plot=short&r=json', headers: { 'content-type': 'application/json' }}, function (error, response, body) {
+    url: 'https://www.omdbapi.com/?t=' + title + '&y=' + year + '&plot=short&r=json'},
+    function (error, response, body) {
 
       // Run only if there is no error and the request works:
       if (!error && response.statusCode == 200) {
@@ -80,21 +83,25 @@ var getMovies = function(count, user) {
         } else {
           // Begin adding the OMDB data to the Mongo db
           Movie.create(parsedBody, function(err, createdMovie) {
-            // 'user' comes in as a parameter for getMovies, originally sent in when getMovies is invoked in the /import/seed route,
-            // and sent in subsequently from the getNextKey function. This is to avoid .find-ing the user in Mongo every single time the
-            // recursive loop runs. (Find the user once in the route, and pass that user through to this function).
+            // 'user' comes in as a parameter for getMovies, originally sent in when getMovies is invoked in the
+            // /import/seed route, and sent in subsequently from the getNextKey function. This is to avoid
+            // .find-ing the user in Mongo every single time the recursive loop runs. (Find the user once in
+            // the route, and pass that user through to this function).
             user.movies.push(createdMovie);
             user.save(function(userErr, savedUser) {
               // Log of the movie added when all the Mongo db processes have completed and are OK:
               console.log('ADDED: ' + createdMovie.Year + ' ' + createdMovie.Title);
-              // Increase count for the next recursive call. Used both for getting the index value of the next movie to find, and to determine
-              // when the recursive loop should move on to the next top-level key (Year)
+              // Increase count for the next recursive call. Used both for getting the index value of the next
+              // movie to find, and to determine when the recursive loop should move on to the next
+              // top-level key (Year)
               count++;
-              // if all the movies for this year have been added, move on to the next year (the next top-level key in the data object)
+              // if all the movies for this year have been added, move on to the next year (the next top-level
+              // key in the data object)
               if (count >= lim) { return getNextKey(user); }
               // if there are more movies to add for this year, run getMovies again recursively.
               // Recursion is used to iterate over the array of titles and to step around async:
-              // only run getMovies within the Request module's promise. (That way the loop doesn't finish before the requests have come back!)
+              // only run getMovies within the Request module's promise. (That way the loop doesn't finish
+              // before the requests have come back!)
               getMovies(count, user);
             });
           });
