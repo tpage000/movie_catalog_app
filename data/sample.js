@@ -1,8 +1,8 @@
 module.exports =  {
-  "1945":["Children of Paradise"],
-  "1942":["Casablanca"],
-  "1941":["Citizen Kane","The Maltese Falcon"],
-  "1940":["The Great Dictator"],
-  "1939":["Gone With The Wind","Wizard Of Oz"],
-  "1925":["Battleship Potemkin"]
+  "1945":["Hello Kitty"],
+  "1942":["Nothing much"],
+  "1941":["Road to Zanzibar","FRIENDS"],
+  "1940":["Fantasia"],
+  "1939":["Smell-o-tron","Deliberate Bones"],
+  "1925":[""]
 }

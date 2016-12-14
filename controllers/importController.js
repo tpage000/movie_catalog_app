@@ -19,6 +19,9 @@ var globalKeyCount = 0;
 var globalKeyLimit = Object.keys(DATA).length;
 var globalCurrentKey = Object.keys(DATA)[globalKeyCount];
 
+// For collecting the movies that OMDB could not match / find
+var moviesNotAdded = [];
+
 // When all the top-level keys (Years) in the data Object have been used,
 // or if there is a server error from Request, this function pops up to tell
 // you that's it's over
@@ -26,7 +29,11 @@ var done = function() {
   globalKeyCount = 0;
   globalKeyLimit = Object.keys(DATA).length;
   globalCurrentKey = Object.keys(DATA)[globalKeyCount];
-  console.log('process complete');
+  console.log('Process complete!');
+  console.log('---');
+  console.log('Movies not added: ', moviesNotAdded);
+  console.log('---');
+  moviesNotAdded = [];
   return
 }
 
@@ -61,8 +68,9 @@ var getMovies = function(count, user) {
         var parsedBody = JSON.parse(body);
         // if the movie title is spelled incorrectly, or the year and title do not match, or the movie is not on OMDB:
         // log the error and move on to the next movie
-        if (parsedBody.Response == "false") {
-          console.warn('NOT FOUND: ', year, title);
+        if (parsedBody.Response == "False") {
+          console.warn('NOT FOUND: ' + year + ' ' + title);
+          moviesNotAdded.push(year + ' ' + title);
           count++;
           if (count == lim) { return getNextKey(user); }
           getMovies(count, user);
@@ -76,7 +84,7 @@ var getMovies = function(count, user) {
             user.movies.push(createdMovie);
             user.save(function(userErr, savedUser) {
               // Log of the movie added when all the Mongo db processes have completed and are OK:
-              console.log(createdMovie.Year + ' ' + createdMovie.Title + ' added . . .');
+              console.log('ADDED: ' + createdMovie.Year + ' ' + createdMovie.Title);
               // Increase count for the next recursive call. Used both for getting the index value of the next movie to find, and to determine
               // when the recursive loop should move on to the next top-level key (Year)
               count++;
@@ -100,14 +108,18 @@ var getMovies = function(count, user) {
 
 // Only 'admin' can get anything out of visiting this route.
 // The route starts a potentially large chain of ajax requests, so . . .
+
+// Can only visit route ONCE per session to avoid multiple reloads
+
 // GET /import/seed
 router.get('/seed', function(req, res) {
-  if (req.session.loggedInUser.name === 'admin') {
+  if (!req.session.imported && req.session.loggedInUser.name === 'admin') {
+    req.session.imported = true;
     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
       if (!err) {
         // Invoke recursive function chain to make async requests
         getMovies(0, foundUser);
-        res.send('getting movies for user: ' + foundUser.name);
+        res.redirect('/movies/chronological_columns');
       } else {
         res.send('error');
       }
