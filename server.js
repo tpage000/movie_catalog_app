@@ -20,6 +20,7 @@ mongoose.connection.once('open', function() {
 // CONTROLLERS
 var moviesController = require('./controllers/moviesController');
 var usersController = require('./controllers/usersController');
+var importController = require('./controllers/importController');
 
 //==============================================================
 // MIDDLEWARE
@@ -36,6 +37,7 @@ app.use(methodOverride('_method'));
 
 app.use('/users', usersController);
 app.use('/movies', isLoggedIn, moviesController);
+app.use('/import', importController);
 
 // CUSTOM MIDDLEWARE
 // Check if a user is logged in (used for '/movies..' route)
