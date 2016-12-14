@@ -128,7 +128,7 @@ router.get('/seed', function(req, res) {
       if (!err) {
         // Invoke recursive function chain to make async requests
         getMovies(0, foundUser);
-        res.redirect('/movies/chronological_columns');
+        res.send('importing movies . . . check server console');
       } else {
         res.send('error');
       }
