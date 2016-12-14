@@ -63,7 +63,18 @@ router.post('/login', function(req, res) {
     }
   });
 });
-// =================================================================
+//  =============================================================
+//
+// Testing
+//
+// See all users json
+router.get('/', function(req, res) {
+  User.find(function(err, allUsers) {
+    res.send(allUsers);
+  });
+});
+
+
 
 // EXPORT THE ROUTER - required in server.js and used as middleware for '/users'
 module.exports = router;
