@@ -7,6 +7,11 @@
     <li><a class="nav-grey-link" href="/movies/alphabetical">A-Z</a></li>
     <li><a class="nav-grey-link" href="/movies/release_date">1-9</a></li>
     <li><a class="nav-new-link" href="/movies/new">NEW</a></li>
+    <% if (typeof user != 'undefined') { %>
+      <% if (user.name === 'admin') { %>
+        <li><a class="bright-blue" href="/import/seed">Import</a></li>
+      <% } %>
+    <% } %>
     <li><a class="nav-grey-link" href="/logout">Logout</a></li>
   </ul>
 </nav>

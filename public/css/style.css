@@ -46,6 +46,10 @@ body {
   width: 20px;
 }
 
+.bright-blue {
+  color: #5bc0de;
+}
+
 .form-bg {
   background-color: #E3E3E3;
 }
