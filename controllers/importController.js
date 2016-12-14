@@ -42,7 +42,7 @@ var done = function() {
 var getNextKey = function(user) {
   globalKeyCount++;
   globalCurrentKey = Object.keys(DATA)[globalKeyCount];
-  if (globalKeyCount == globalKeyLimit) { return done(); }
+  if (globalKeyCount >= globalKeyLimit) { return done(); }
   getMovies(0, user);
 }
 
@@ -52,6 +52,8 @@ var getNextKey = function(user) {
 var getMovies = function(count, user) {
   // getMovies is recursive: the lim variable holds how many times it should run
   var lim = DATA[globalCurrentKey].length;
+  // don't bother if the limit is zero (nothing in the array of movies)
+  if (lim <= 0) { return getNextKey(user); }
   var title = DATA[globalCurrentKey][count];
   var year = globalCurrentKey;
 
@@ -72,7 +74,7 @@ var getMovies = function(count, user) {
           console.warn('NOT FOUND: ' + year + ' ' + title);
           moviesNotAdded.push(year + ' ' + title);
           count++;
-          if (count == lim) { return getNextKey(user); }
+          if (count >= lim) { return getNextKey(user); }
           getMovies(count, user);
         // if OMDB returns the movie data:
         } else {
@@ -89,7 +91,7 @@ var getMovies = function(count, user) {
               // when the recursive loop should move on to the next top-level key (Year)
               count++;
               // if all the movies for this year have been added, move on to the next year (the next top-level key in the data object)
-              if (count == lim) { return getNextKey(user); }
+              if (count >= lim) { return getNextKey(user); }
               // if there are more movies to add for this year, run getMovies again recursively.
               // Recursion is used to iterate over the array of titles and to step around async:
               // only run getMovies within the Request module's promise. (That way the loop doesn't finish before the requests have come back!)
