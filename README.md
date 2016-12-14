@@ -15,8 +15,6 @@
 ![](https://i.imgur.com/p703gD0.png)
 
 
-
-
 ### Built with
 	* Node and Express
 	* Mongo db, and Mongoose for ODM
@@ -33,6 +31,13 @@
 
 * Remove unwanted dates
 
+* Format alphabetical column display
+ * Make pleasant and grid-like for large datasets 
+ * Movies beginning with 'The' shouldn't be under 'T'
+ * Movies beginning with numbers should come last
+
+* Import movies using JSON text
+
 ----
 ### Features coming:
 
@@ -43,8 +48,6 @@
 * Try out some kinda resizing / zoom on the data sets
 
 * Eventually make the landing page something other than signup / login.
-
-* Formatting the chronological movie list view with tabs for flipping between years, to facilitate larger data sets
 
 ----
 ### Bugs / Gremlins / Errors:
