@@ -6,6 +6,16 @@
 
 * See your movies listed alphabetically and chronologically
 
+![](https://i.imgur.com/nZjnEPB.png)
+
+![](https://i.imgur.com/eYb9mUt.png)
+
+* See your recently watched movies and rate them
+
+![](https://i.imgur.com/p703gD0.png)
+
+
+
 
 ### Built with
 	* Node and Express
