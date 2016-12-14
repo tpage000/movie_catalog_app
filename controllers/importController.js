@@ -10,7 +10,7 @@ var Movie = require('../models/movies');
 // SEED FILES
 var movies = require('../data/movies');
 var sample = require('../data/sample');
-var DATA = sample;
+var DATA = movies;
 
 // Global vars to set values
 //    - used in the recursive getMovies function to get values for title, year, and limit
@@ -115,13 +115,11 @@ var getMovies = function(count, user) {
   });// REQUEST MODULE ENDS HERE
 } // end getMovies
 
-// Only 'admin' can get anything out of visiting this route.
+// Only 'admin' can get anything out of accessing this route.
 // The route starts a potentially large chain of ajax requests, so . . .
-
 // Can only visit route ONCE per session to avoid multiple reloads
-
-// GET /import/seed
-router.get('/seed', function(req, res) {
+// POST /import/seed
+router.post('/seed', function(req, res) {
   if (!req.session.imported && req.session.loggedInUser.name === 'admin') {
     req.session.imported = true;
     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
@@ -136,6 +134,14 @@ router.get('/seed', function(req, res) {
   } else {
     res.send('gotta log in as admin to use this route');
   } // end if
+});
+
+// user-facing import page
+// GET /import/seed
+router.get('/new', function(req, res) {
+  User.findById(req.session.loggedInUser.id, function(err, foundUser) {
+    res.render('imports/new.ejs', { username: foundUser.name });
+  });
 });
 
 module.exports = router;

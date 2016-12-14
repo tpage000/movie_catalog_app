@@ -37,7 +37,7 @@ app.use(methodOverride('_method'));
 
 app.use('/users', usersController);
 app.use('/movies', isLoggedIn, moviesController);
-app.use('/import', importController);
+app.use('/imports', isLoggedIn, importController);
 
 // CUSTOM MIDDLEWARE
 // Check if a user is logged in (used for '/movies..' route)

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Movie Catalog App</title>
+    <!-- BOOTSTRAP CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- PROJECT CSS    -->
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div class="container">
+    <!-- include ejs template for nav bar-->
+      <%- include ../partials/navigation.ejs %>
+
+      coming soon
+
+      <% if (typeof username != 'undefined') { %>
+        <% if (username === 'admin') { %>
+          <form class="text-center" action="/imports/seed" method="POST">
+            <button class="massive-button" type="submit" onclick="return confirm('Import a potentially massive amount of movies?')">IMPORT</button>
+          </form>
+        <% } %>
+      <% } %>
+    </div>
+  </body>
+</html>
