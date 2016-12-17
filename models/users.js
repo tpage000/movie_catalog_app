@@ -42,32 +42,38 @@ var sortArrayOfObjects = function(arrayOfObjects, key) {
     if (a[key] > b[key]) { return 1; }
     return 0;
   });
-}
-
-// Virtual for sorting the user's movies array by alphabetical movie.Title
-// [{Title: "An Autumn Afternoon"}, {Title: "Late Spring"}, {Title: "Tokyo Story"}]
-userSchema.virtual('moviesAlphabetical').get(function() {
-  // return sortArrayOfObjects(this.movies, "Title");
-
-  var ignoreThe = function(str) {
-    var words = str.split(" ");
-    if(words.length <= 1) { return str; }
-    if(words[0] == 'The' || words[0] == 'the' ) {
-      return words.splice(1).join(" ");
-    }
-    return str;
-  }
-
-  var sortedByTitle = this.movies.slice().sort(function(a, b) {
-    var titleA = ignoreThe(a.Title);
-    var titleB = ignoreThe(b.Title);
-
+};
+// Same thing, but different for movie titles
+var sortArrayOfObjectsByTitle = function(arrayOfObjects) {
+  return arrayOfObjects.slice().sort(function(a, b) {
+    var titleA = validateTitle(a.Title.toLowerCase());
+    var titleB = validateTitle(b.Title.toLowerCase());
     if (titleA < titleB) { return -1; }
     if (titleA > titleB) { return 1; }
     return 0;
   });
+};
 
-  return sortedByTitle;
+// This function is used to validate titles according to how I want them sorted
+var validateTitle = function(originalTitle) {
+  var title = originalTitle.split(" ");
+  if (title.length <= 1) { return originalTitle; };
+  // First, ignore an initial "The"
+  if (title[0] == 'The' || title[0] == 'the' ) {
+    var modifiedTitle = title.splice(1).join(" ");
+    // Then, remove all non-alphanumerical characters that would get in the way
+    while( modifiedTitle.charAt(0).match(/[^\w\s]/)) {
+      modifiedTitle = modifiedTitle.substr(1);
+    }
+    return modifiedTitle;
+  }
+  return originalTitle;
+} // end validateTitle
+
+// Virtual for sorting the user's movies array by alphabetical movie.Title
+// [{Title: "An Autumn Afternoon"}, {Title: "Late Spring"}, {Title: "Tokyo Story"}]
+userSchema.virtual('moviesAlphabetical').get(function() {
+  return sortArrayOfObjectsByTitle(this.movies);
 });
 
 // Virtual for sorting the user's movies array by chronological movie.Year
@@ -79,54 +85,20 @@ userSchema.virtual('moviesChronological').get(function() {
 // return an object whose keys are the relevant first letters
 // { A: [{Title: "An Autumn Afternoon"}], L: [{Title: "Late Spring"}], T: [{Title: "Tokyo Story"}]}
 userSchema.virtual('moviesColumnsAlpha').get(function() {
-  // CORRECT FOR
-  // * Aeon Flux
-
-  // ** Order
-
-  // This function is used to validate titles according to how I want them sorted
-  var validateTitle = function(originalTitle) {
-
-
-    var title = originalTitle.split(" ");
-
-    // if (title[0][0] == "Æ") { title[0][0] = "A" };
-
-    if (title.length <= 1) { return originalTitle; };
-
-    // First, ignore an initial "The"
-    if (title[0] == 'The' || title[0] == 'the' ) {
-      var modifiedTitle = title.splice(1).join(" ");
-      // Then, remove all non-alphanumerical characters that would get in the way
-      while( modifiedTitle.charAt(0).match(/[^\w\s]/)) {
-        modifiedTitle = modifiedTitle.substr(1);
-      }
-      return modifiedTitle;
-    }
-    return originalTitle;
-  }
-
-  var sortedByTitle = this.movies.slice().sort(function(a, b) {
-    var titleA = validateTitle(a.Title.toLowerCase());
-    var titleB = validateTitle(b.Title.toLowerCase());
-
-    if (titleA < titleB) { return -1; }
-    if (titleA > titleB) { return 1; }
-    return 0;
-  });
-
-  // Get unique letters as keys in an object
+  // sort the array of movie objects by title
+  var sortedByTitle = sortArrayOfObjectsByTitle(this.movies);
+  // Loop over the sorted movie objects array, and use the first valid letter
+  // of the movie's title as a unique letter-key in a new object
   var obj = {}
   for (var i=0; i < sortedByTitle.length; i++) {
     obj[validateTitle(sortedByTitle[i].Title)[0].toUpperCase()] = [];
   }
-  // If the title starts with the same letter as the key,
-  // push it into that key's array
+  // Now that the letter-keys have been constructed, loop over them and
+  // loop over the sorted movie objects again. If the movie title starts with the same letter as the key,
+  // push the movie object into that key's array
   for (var key in obj) {
     for (var i=0; i < sortedByTitle.length; i++) {
-
       if (validateTitle(sortedByTitle[i].Title)[0].toUpperCase() == key) {
-
         obj[key].push(sortedByTitle[i]);
       }
     }
@@ -137,7 +109,6 @@ userSchema.virtual('moviesColumnsAlpha').get(function() {
 // Virtual for sorting the user's movies array by chronological movie.Year AND
 // Return an object whose keys are the relevant years
 userSchema.virtual('moviesColumnsYear').get(function() {
-
   // Sorts movies by year
   var sortedByYear = sortArrayOfObjects(this.movies, "Year");
   // Gets only the relevant years, unique
@@ -163,7 +134,6 @@ userSchema.virtual('moviesColumnsYear').get(function() {
       return 0;
     });
   }
-
   return obj;
 });
 
@@ -176,7 +146,6 @@ userSchema.virtual('moviesRecent').get(function() {
       allDatesByMovie.push({ id: movie._id, Title: movie.Title, dateString: date.dateString, yymmdd: date.yymmdd, Rating: movie.Rating });
     });
   });
-
   // Sort by 'yymmdd' and reverse so that the latest films come first
   return sortArrayOfObjects(allDatesByMovie, "yymmdd").reverse();
 });
