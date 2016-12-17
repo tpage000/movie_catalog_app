@@ -47,7 +47,27 @@ var sortArrayOfObjects = function(arrayOfObjects, key) {
 // Virtual for sorting the user's movies array by alphabetical movie.Title
 // [{Title: "An Autumn Afternoon"}, {Title: "Late Spring"}, {Title: "Tokyo Story"}]
 userSchema.virtual('moviesAlphabetical').get(function() {
-  return sortArrayOfObjects(this.movies, "Title");
+  // return sortArrayOfObjects(this.movies, "Title");
+
+  var ignoreThe = function(str) {
+    var words = str.split(" ");
+    if(words.length <= 1) { return str; }
+    if(words[0] == 'The' || words[0] == 'the' ) {
+      return words.splice(1).join(" ");
+    }
+    return str;
+  }
+
+  var sortedByTitle = this.movies.slice().sort(function(a, b) {
+    var titleA = ignoreThe(a.Title);
+    var titleB = ignoreThe(b.Title);
+
+    if (titleA < titleB) { return -1; }
+    if (titleA > titleB) { return 1; }
+    return 0;
+  });
+
+  return sortedByTitle;
 });
 
 // Virtual for sorting the user's movies array by chronological movie.Year
@@ -59,21 +79,42 @@ userSchema.virtual('moviesChronological').get(function() {
 // return an object whose keys are the relevant first letters
 // { A: [{Title: "An Autumn Afternoon"}], L: [{Title: "Late Spring"}], T: [{Title: "Tokyo Story"}]}
 userSchema.virtual('moviesColumnsAlpha').get(function() {
+  // CORRECT FOR
+  // * Aeon Flux
+  // * loudQUIETLoud
+  // * The 'Burbs
+
+  
+  var ignoreThe = function(str) {
+    var words = str.split(" ");
+    if (words.length <= 1) { return str; }
+    if (words[0] == 'The' || words[0] == 'the' ) {
+      return words.splice(1).join(" ");
+    }
+    return str;
+  }
+
   var sortedByTitle = this.movies.slice().sort(function(a, b) {
-    if (a.Title < b.Title) { return -1; }
-    if (a.Title > b.Title) { return 1; }
+    var titleA = ignoreThe(a.Title.toLowerCase());
+    var titleB = ignoreThe(b.Title.toLowerCase());
+
+    if (titleA < titleB) { return -1; }
+    if (titleA > titleB) { return 1; }
     return 0;
   });
+
   // Get unique letters as keys in an object
   var obj = {}
   for (var i=0; i < sortedByTitle.length; i++) {
-    obj[sortedByTitle[i].Title[0]] = [];
+    obj[sortedByTitle[i].Title[0].toUpperCase()] = [];
   }
   // If the title starts with the same letter as the key,
   // push it into that key's array
   for (var key in obj) {
     for (var i=0; i < sortedByTitle.length; i++) {
-      if (sortedByTitle[i].Title[0] == key) {
+
+      if (ignoreThe(sortedByTitle[i].Title)[0] == key) {
+
         obj[key].push(sortedByTitle[i]);
       }
     }
