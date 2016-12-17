@@ -34,27 +34,25 @@ userSchema.methods.authenticate = function(password) {
 
 // VIRTUALS FOR SORTING THE MOVIES ARRAY
 
+// Reusable function to sort an array of objects
+// The 'key' param is the key in each object to use for the sorting criterion
+var sortArrayOfObjects = function(arrayOfObjects, key) {
+  return arrayOfObjects.slice().sort(function(a, b) {
+    if (a[key] < b[key]) { return -1; }
+    if (a[key] > b[key]) { return 1; }
+    return 0;
+  });
+}
+
 // Virtual for sorting the user's movies array by alphabetical movie.Title
 // [{Title: "An Autumn Afternoon"}, {Title: "Late Spring"}, {Title: "Tokyo Story"}]
 userSchema.virtual('moviesAlphabetical').get(function() {
-  var sortedByTitle = this.movies.slice().sort(function(a, b) {
-    if (a.Title < b.Title) { return -1; }
-    if (a.Title > b.Title) { return 1; }
-    return 0;
-  });
-
-  return sortedByTitle;
+  return sortArrayOfObjects(this.movies, "Title");
 });
 
 // Virtual for sorting the user's movies array by chronological movie.Year
 userSchema.virtual('moviesChronological').get(function() {
-  var sortedByYear = this.movies.slice().sort(function(a, b) {
-    if (a.Year < b.Year) { return -1; }
-    if (a.Year > b.Year) { return 1; }
-    return 0;
-  });
-
-  return sortedByYear;
+  return sortArrayOfObjects(this.movies, "Year");
 });
 
 // Virtual for sorting the user's movies array by alphabetical movie.Title AND
@@ -86,18 +84,17 @@ userSchema.virtual('moviesColumnsAlpha').get(function() {
 // Virtual for sorting the user's movies array by chronological movie.Year AND
 // Return an object whose keys are the relevant years
 userSchema.virtual('moviesColumnsYear').get(function() {
+
   // Sorts movies by year
-  var sortedByYear = this.movies.slice().sort(function(a, b) {
-    if (a.Year < b.Year) { return -1; }
-    if (a.Year > b.Year) { return 1; }
-    return 0;
-  });
+  var sortedByYear = sortArrayOfObjects(this.movies, "Year");
   // Gets only the relevant years, unique
+  // => { 2005: [], 2006: [], 2007: [] }
   var obj = {}
   for (var i=0; i < sortedByYear.length; i++) {
     obj[sortedByYear[i].Year] = [];
   }
-  // Creates an object with each year as a key, and the movies as values
+  // Adds the movies to the relevant arrays
+  // => { 2005: [{ Title: "movie" ...}], 2006: [{ Title: "movie" ...}, { Title: "movie2" ...}] }
   for (var key in obj) {
     for (var i=0; i < sortedByYear.length; i++) {
       if (sortedByYear[i].Year == key) {
@@ -105,7 +102,7 @@ userSchema.virtual('moviesColumnsYear').get(function() {
       }
     }
   }
-  // Sorts the movies by rating within each year
+  // Destructively sorts the movies by rating within each year
   for (var key in obj) {
     obj[key].sort(function(a, b) {
       if (a.Rating > b.Rating) { return - 1 ;}
@@ -113,34 +110,22 @@ userSchema.virtual('moviesColumnsYear').get(function() {
       return 0;
     });
   }
+
   return obj;
 });
 
 // Virtual for sorting all movies by DatesWatched
 // Movies can have multiple watch dates and therefore need separate entries for each
 userSchema.virtual('moviesRecent').get(function() {
-
-  var separateMovies = function(data) {
-    var allDatesByMovie = [];
-    data.forEach(function(movie) {
-      movie.DatesWatched.forEach(function(date) {
-        allDatesByMovie.push({ id: movie._id, Title: movie.Title, dateString: date.dateString, yymmdd: date.yymmdd, Rating: movie.Rating });
-      });
+  var allDatesByMovie = [];
+  this.movies.forEach(function(movie) {
+    movie.DatesWatched.forEach(function(date) {
+      allDatesByMovie.push({ id: movie._id, Title: movie.Title, dateString: date.dateString, yymmdd: date.yymmdd, Rating: movie.Rating });
     });
-    return sortMoviesByDate(allDatesByMovie);
-  }
+  });
 
-  var sortMoviesByDate = function(movieList) {
-    movieList.sort(function(a, b) {
-      if (a.yymmdd < b.yymmdd) return 1;
-      if (a.yymmdd > b.yymmdd) return -1;
-      return 0;
-    })
-    return movieList;
-  }
-
-  return separateMovies(this.movies);
-
+  // Sort by 'yymmdd' and reverse so that the latest films come first
+  return sortArrayOfObjects(allDatesByMovie, "yymmdd").reverse();
 });
 
 // ===============================================================
