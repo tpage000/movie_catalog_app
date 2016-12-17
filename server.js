@@ -1,6 +1,7 @@
 // DEPENDENCIES
 var express        = require('express'),
     app            = express(),
+    dotenv         = require('dotenv').config();
     bodyParser     = require('body-parser'),
     methodOverride = require('method-override'),
     mongoose       = require('mongoose'),
@@ -25,7 +26,7 @@ var importController = require('./controllers/importController');
 //==============================================================
 // MIDDLEWARE
 app.use(session({
-  secret: 'braingremlin',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   maxAge: 2592000000
@@ -40,7 +41,7 @@ app.use('/movies', isLoggedIn, moviesController);
 app.use('/imports', isLoggedIn, importController);
 
 // CUSTOM MIDDLEWARE
-// Check if a user is logged in (used for '/movies..' route)
+// Check if a user is logged in (used for '/movies..' and '/imports..' routes)
 function isLoggedIn(req, res, next) {
   if (req.session.loggedInUser) {
     return next();
