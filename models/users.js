@@ -81,25 +81,29 @@ userSchema.virtual('moviesChronological').get(function() {
 userSchema.virtual('moviesColumnsAlpha').get(function() {
   // CORRECT FOR
   // * Aeon Flux
-  // * loudQUIETLoud
-  // * The 'Burbs
+
+  // ** Order
+
+  // This function is used to validate titles according to how I want them sorted
+  var validateTitle = function(originalTitle) {
 
 
-  var validateTitle = function(str) {
-    var title = str.split(" ");
-    if (title.length <= 1) { return str; }
+    var title = originalTitle.split(" ");
+
+    // if (title[0][0] == "Æ") { title[0][0] = "A" };
+
+    if (title.length <= 1) { return originalTitle; };
+
+    // First, ignore an initial "The"
     if (title[0] == 'The' || title[0] == 'the' ) {
       var modifiedTitle = title.splice(1).join(" ");
-      if(modifiedTitle[0].match(/[^\w\s]/)) {
-        console.log('Got a live one: ', modifiedTitle);
-        while( modifiedTitle.charAt(0).match(/[^\w\s]/)) {
-          modifiedTitle = modifiedTitle.substr(1);
-        }
-        console.log('Should be fixed: ', modifiedTitle);
+      // Then, remove all non-alphanumerical characters that would get in the way
+      while( modifiedTitle.charAt(0).match(/[^\w\s]/)) {
+        modifiedTitle = modifiedTitle.substr(1);
       }
       return modifiedTitle;
     }
-    return str;
+    return originalTitle;
   }
 
   var sortedByTitle = this.movies.slice().sort(function(a, b) {
@@ -114,7 +118,7 @@ userSchema.virtual('moviesColumnsAlpha').get(function() {
   // Get unique letters as keys in an object
   var obj = {}
   for (var i=0; i < sortedByTitle.length; i++) {
-    obj[sortedByTitle[i].Title[0].toUpperCase()] = [];
+    obj[validateTitle(sortedByTitle[i].Title)[0].toUpperCase()] = [];
   }
   // If the title starts with the same letter as the key,
   // push it into that key's array
