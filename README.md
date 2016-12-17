@@ -27,13 +27,11 @@
 * Validation for checking if a movie already exists before add
 
 * If movie is not found on OMDB, provide a form to add a movie manually
- * Use default poster for this until I validate the poster size 
+ * Use default poster for this until I validate the poster size
 
 * Remove unwanted dates
 
 * Format alphabetical column display
- * Make pleasant and grid-like for large datasets 
- * Movies beginning with 'The' shouldn't be under 'T'
  * Movies beginning with numbers should come last
 
 * Import movies using JSON text
