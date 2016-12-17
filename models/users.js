@@ -84,19 +84,27 @@ userSchema.virtual('moviesColumnsAlpha').get(function() {
   // * loudQUIETLoud
   // * The 'Burbs
 
-  
-  var ignoreThe = function(str) {
-    var words = str.split(" ");
-    if (words.length <= 1) { return str; }
-    if (words[0] == 'The' || words[0] == 'the' ) {
-      return words.splice(1).join(" ");
+
+  var validateTitle = function(str) {
+    var title = str.split(" ");
+    if (title.length <= 1) { return str; }
+    if (title[0] == 'The' || title[0] == 'the' ) {
+      var modifiedTitle = title.splice(1).join(" ");
+      if(modifiedTitle[0].match(/[^\w\s]/)) {
+        console.log('Got a live one: ', modifiedTitle);
+        while( modifiedTitle.charAt(0).match(/[^\w\s]/)) {
+          modifiedTitle = modifiedTitle.substr(1);
+        }
+        console.log('Should be fixed: ', modifiedTitle);
+      }
+      return modifiedTitle;
     }
     return str;
   }
 
   var sortedByTitle = this.movies.slice().sort(function(a, b) {
-    var titleA = ignoreThe(a.Title.toLowerCase());
-    var titleB = ignoreThe(b.Title.toLowerCase());
+    var titleA = validateTitle(a.Title.toLowerCase());
+    var titleB = validateTitle(b.Title.toLowerCase());
 
     if (titleA < titleB) { return -1; }
     if (titleA > titleB) { return 1; }
@@ -113,7 +121,7 @@ userSchema.virtual('moviesColumnsAlpha').get(function() {
   for (var key in obj) {
     for (var i=0; i < sortedByTitle.length; i++) {
 
-      if (ignoreThe(sortedByTitle[i].Title)[0] == key) {
+      if (validateTitle(sortedByTitle[i].Title)[0].toUpperCase() == key) {
 
         obj[key].push(sortedByTitle[i]);
       }
