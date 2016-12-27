@@ -1,5 +1,5 @@
 module.exports = {
-  "2016":["La La Land", "Arrival","White Girl","The Neon Demon","Hunt for the Wilderpeople","Wiener-Dog","The Witch","Snowden","Reggie Watts: Spatial", "Zootopia"],
+  "2016":["Rogue One: A Star Wars Story","La La Land", "Arrival","White Girl","The Neon Demon","Hunt for the Wilderpeople","Wiener-Dog","The Witch","Snowden","Reggie Watts: Spatial", "Zootopia"],
   "2015":["The Lobster", "The Revenant","The Man From UNCLE","Mad Max: Fury Road","Bone Tomahawk","Star Wars: The Force Awakens","Love","The Martian","Steve Jobs","Cobain: Montage of Heck","The Hunger Games: Mockingjay - Part 2","Spectre"],
   "2014":["The Barkley Marathons: The Race That Eats Its Young", "Interstellar","Inherent Vice", "The Grand Budapest Hotel","Whiplash","Nightcrawler","Guardians of the Galaxy","Frank","The One I Love","What We Do In The Shadows","Housebound","Edge of Tomorrow","The Hunger Games: Mockingjay - Part 1"],
   "2013":["Oculus","Her","Under the Skin","Only God Forgives","The Wolf of Wall Street","The Hunger Games: Catching Fire","Blue Ruin","The Hangover Part III","Man of Steel","Star Trek Into Darkness","The Hobbit: The Desolation of Smaug","The Sacrament","Only Lovers Left Alive","Kick-Ass 2"],
