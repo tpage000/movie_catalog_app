@@ -30,23 +30,45 @@ var makeAjaxRequestToOMDBSearch = function() {
   var $inputString = $('#input-box').val();
   // MAKE AJAX REQUEST TO OMDBAPI using the input string in the request url
   // Note: The request url needs to be https or Heroku gives a 'mixed content' error
-  $.ajax('https://www.omdbapi.com/?s=' + $inputString + '&r=json')
-   .done(function(searchResults) {
-    console.log('OMDB SEARCH results: ', searchResults);
-    // empty the page of all previous do-ers to make way for the result
-    $('#result-container').empty();
-    $('#input-box').val('');
-    // if the AJAX request to OMDB does not have the movie, send this message to the page
-    if (searchResults.Error) {
-      $('#result-container').text(searchResults.Error + ' Did you spell it correctly though? Maybe OMDB Api hasn\'t added it yet, which is a shame.' );
-    // if the AJAX request to OMDB does return movie results, add the movie results to the page
-    // and add a button so that user can put the movie in the user's collection
-    } else {
-      // ==============================================
-      displayAllMovieResults(searchResults);
-      // ==============================================
-    } // end else error
-  }); // end OMDB SEARCH
+
+  if ($inputString.startsWith('tt')) {
+    console.log('imdb query');
+    $.ajax('https://www.omdbapi.com/?i=' + $inputString + '&r=json')
+     .done(function(searchResults) {
+       console.log('OMDB imdb number search result: ', searchResults);
+       // empty the page of all previous do-ers to make way for the result
+       $('#result-container').empty();
+       $('#input-box').val('');
+       // if the AJAX request to OMDB does not have the movie, send this message to the page
+       if (searchResults.Error) {
+         $('#result-container').text(searchResults.Error + ' Did you spell it correctly though? Maybe OMDB Api hasn\'t added it yet, which is a shame.' );
+       // if the AJAX request to OMDB does return movie results, add the movie results to the page
+       // and add a button so that user can put the movie in the user's collection
+       } else {
+         // ==============================================
+         displaySingleMovieResult(searchResults);
+         // ==============================================
+       } // end else error
+     })
+  } else {
+    $.ajax('https://www.omdbapi.com/?s=' + $inputString + '&r=json')
+     .done(function(searchResults) {
+      console.log('OMDB SEARCH results: ', searchResults);
+      // empty the page of all previous do-ers to make way for the result
+      $('#result-container').empty();
+      $('#input-box').val('');
+      // if the AJAX request to OMDB does not have the movie, send this message to the page
+      if (searchResults.Error) {
+        $('#result-container').text(searchResults.Error + ' Did you spell it correctly though? Maybe OMDB Api hasn\'t added it yet, which is a shame.' );
+      // if the AJAX request to OMDB does return movie results, add the movie results to the page
+      // and add a button so that user can put the movie in the user's collection
+      } else {
+        // ==============================================
+        displayAllMovieResults(searchResults);
+        // ==============================================
+      } // end else error
+    }); // end OMDB SEARCH
+  } // end else
   // =================================================================================
 } // end makeAjaxRequestToOMDBSearch
 
@@ -87,6 +109,24 @@ var displayAllMovieResults = function(searchResults) {
     if (index >= 9) { $('#row3').append($movieContainer); }
   });
 } // end displayAllMovieResults
+
+var displaySingleMovieResult = function(result) {
+  var $movieContainer = $('<div>');
+  $movieContainer.append($('<h3>').text(result.Title));
+  $movieContainer.append($('<p>').text(result.Year));
+  if (result.Poster == "N/A") { result.Poster = "https://svn.alfresco.com/repos/alfresco-open-mirror/alfresco/COMMUNITYTAGS/V5.0.a/root/projects/repository/config/alfresco/thumbnail/thumbnail_placeholder_256_qt.png"; };
+  $movieContainer.append($('<img>').attr('src', result.Poster).addClass('poster-img'));
+  $movieContainer.append($('<p>'));
+  // Each movie's 'add' button will have the imdb ID as an id.
+  // This is used when the 'add' button is clicked, in order to make yet another ajax request,
+  // this time to the single-movie api in order to get more detailed results on the chosen movie.
+  var $addButton = $('<button id=' + result.imdbID + ' type="submit">ADD</button>');
+  $addButton.addClass('hit-button');
+  $addButton.on('click', getMoreMovieInfoFromOMDB);
+  $movieContainer.append($addButton);
+  $movieContainer.addClass('col-lg-4 text-center');
+  $('#result-container').append($movieContainer);
+}
 
 // ===================================================================================
 // 'ADD' BUTTON FUNCTIONALITY

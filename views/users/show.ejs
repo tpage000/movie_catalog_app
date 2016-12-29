@@ -22,7 +22,7 @@
       </div>
 
       <div class="movie-number-message text-center">
-        <p>Hi <%=user.name %>! You've watched at least <%= user.movies.length %> movies in your life! <small><a href="/movies/alphabetical_columns">See them.</a><small></p>             
+        <p>Hi <%=user.name %>! You've watched at least <%= user.movies.length %> movies in your life! <small><a href="/movies/alphabetical_columns">See them.</a><small></p>
       </div>
 
       <div>
@@ -30,7 +30,7 @@
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
             <div class="input-group">
-              <input id="input-box" type="text" class="form-control" placeholder="movie title . . .">
+              <input id="input-box" type="text" class="form-control" placeholder="movie title, search string, or imdb id . . .">
               <span class="input-group-btn">
                 <button id="input-submit" class="btn btn-danger" type="button">FIND MOVIE</button>
               </span>
@@ -41,7 +41,6 @@
 
       <div class="row" id="result-container">
       </div>
-
 
     </div> <!-- end container -->
   </body>
