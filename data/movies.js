@@ -38,7 +38,7 @@ module.exports = {
   "1980":["The Elephant Man","Raging Bull","The Shining","Star Wars: Episode V - The Empire Strikes Back","The Blues Brothers"],
   "1979":["All That Jazz","Alien","Apocalypse Now","Life Of Brian"],
   "1978":["Invasion Of The Body Snatchers","The Deer Hunter","Up In Smoke"],
-  "1977":["Eraserhead","Star Wars: Episode IV - A New Hope","Annie Hall","Sleeping Dogs","Pumping Iron"],
+  "1977":["House","Eraserhead","Star Wars: Episode IV - A New Hope","Annie Hall","Sleeping Dogs","Pumping Iron"],
   "1976":["Taxi Driver","Burnt Offerings","Carrie"],
   "1975":["The Passenger","One Flew Over The Cuckoo's Nest","Monty Python and the Holy Grail"],
   "1974":["Beautiful People","The Godfather: Part II","Chinatown"],
