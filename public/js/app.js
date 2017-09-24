@@ -33,7 +33,7 @@ var makeAjaxRequestToOMDBSearch = function() {
 
   if ($inputString.startsWith('tt')) {
     console.log('imdb query');
-    $.ajax('https://www.omdbapi.com/?i=' + $inputString + '&r=json')
+    $.ajax('https://www.omdbapi.com/?i=' + $inputString + '&r=json&apikey=bea723f3')
      .done(function(searchResults) {
        console.log('OMDB imdb number search result: ', searchResults);
        // empty the page of all previous do-ers to make way for the result
@@ -51,7 +51,7 @@ var makeAjaxRequestToOMDBSearch = function() {
        } // end else error
      })
   } else {
-    $.ajax('https://www.omdbapi.com/?s=' + $inputString + '&r=json')
+    $.ajax('https://www.omdbapi.com/?s=' + $inputString + '&r=json&apikey=bea723f3')
      .done(function(searchResults) {
       console.log('OMDB SEARCH results: ', searchResults);
       // empty the page of all previous do-ers to make way for the result
