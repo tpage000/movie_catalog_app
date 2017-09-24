@@ -138,7 +138,7 @@ var getMoreMovieInfoFromOMDB = function() {
   // the imdb id is the 'add' button's id.
   console.log(this.id);
   // Retrieves detailed information about the chosen title using imdb id within the search string
-  $.ajax('https://www.omdbapi.com/?i=' + this.id + '&y=&plot=short&r=json')
+  $.ajax('https://www.omdbapi.com/?i=' + this.id + '&y=&plot=short&r=json&apikey=bea723f3')
    .done(function(result) {
      if (result.Error) {
        $('#result-container').text(result.Error);
