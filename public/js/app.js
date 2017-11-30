@@ -33,7 +33,7 @@ var makeAjaxRequestToOMDBSearch = function() {
 
   if ($inputString.startsWith('tt')) {
     console.log('imdb query');
-    $.ajax('https://www.omdbapi.com/?i=' + $inputString + '&r=json&apikey=bea723f3')
+    $.ajax('https://www.omdbapi.com/?i=' + $inputString + '&r=json&apikey=57dc4908')
      .done(function(searchResults) {
        console.log('OMDB imdb number search result: ', searchResults);
        // empty the page of all previous do-ers to make way for the result
@@ -51,7 +51,7 @@ var makeAjaxRequestToOMDBSearch = function() {
        } // end else error
      })
   } else {
-    $.ajax('https://www.omdbapi.com/?s=' + $inputString + '&r=json&apikey=bea723f3')
+    $.ajax('https://www.omdbapi.com/?s=' + $inputString + '&r=json&apikey=57dc4908')
      .done(function(searchResults) {
       console.log('OMDB SEARCH results: ', searchResults);
       // empty the page of all previous do-ers to make way for the result
@@ -138,7 +138,7 @@ var getMoreMovieInfoFromOMDB = function() {
   // the imdb id is the 'add' button's id.
   console.log(this.id);
   // Retrieves detailed information about the chosen title using imdb id within the search string
-  $.ajax('https://www.omdbapi.com/?i=' + this.id + '&y=&plot=short&r=json&apikey=bea723f3')
+  $.ajax('https://www.omdbapi.com/?i=' + this.id + '&y=&plot=short&r=json&apikey=57dc4908')
    .done(function(result) {
      if (result.Error) {
        $('#result-container').text(result.Error);
