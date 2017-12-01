@@ -68,6 +68,7 @@ const requestBySearch = async ($inputString) => {
       // ==============================================
     } // end else error
   } catch (err) {
+    console.log('Error: ', err);
     $('#result-container').empty();
     $('#input-box').val('');   
     $('#result-container').text(err); 
@@ -156,7 +157,7 @@ const getMoreMovieInfoFromOMDB = async (event) => {
        // =====================================
      } // end if error
   } catch (err) {
-    console.log(err);
+    console.log('Error: ', err);
     $('#result-container').empty();
     $('#input-box').val('');   
     $('#result-container').text(err);     
@@ -174,7 +175,7 @@ const sendMovieDataToServer = async (movie) => {
     });
     window.location.href = '/movies/' + response.movieId;
   } catch (err) {
-    console.log(err);
+    console.log('Error: ', err);
     $('#result-container').empty();
     $('#input-box').val('');   
     $('#result-container').text(err);         
