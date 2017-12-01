@@ -1,27 +1,22 @@
 console.log('hi');
 
-// ONLOAD
-$(function() {
-  // ===============================================
-  // BEGIN PROCESS WHEN INPUT SUBMIT IS CLICKED
-  $('#input-submit').on('click', processRequest);
-  // ===============================================
-}); // end onload
+// Document Ready
+$(() => $('#input-submit').on('click', processRequest));
 
-// begins the chain of events
-const processRequest = function() {
+// Begins the chain of events
+const processRequest = () => {
   displayLoadingGif();
   makeAjaxRequestToOMDBSearch();
 }
 
-const displayLoadingGif = function() {
+const displayLoadingGif = () => {
   $('#result-container').empty();
   $loadingGifDiv = $('<div>').addClass("col-lg-6 text-center");
-  $loadingGifDiv.append('<img src="http://digitalsynopsis.com/wp-content/uploads/2016/06/loading-animations-preloader-gifs-ui-ux-effects-18.gif"/>')
+  $loadingGifDiv.append('<img src="http://digitalsynopsis.com/wp-content/uploads/2016/06/loading-animations-preloader-gifs-ui-ux-effects-18.gif"/>');
   $('#result-container').append($loadingGifDiv);
 };
 
-const makeAjaxRequestToOMDBSearch = function() {
+const makeAjaxRequestToOMDBSearch = () => {
   const $inputString = $('#input-box').val();
   // Either query for a single movie by its IMDB number (tt2527336) or 
   // query by searching OMDB by title, actor, director, etc.
@@ -30,7 +25,7 @@ const makeAjaxRequestToOMDBSearch = function() {
   } else {
     requestBySearch($inputString);
   }
-}
+};
 
 const requestByIMDB = async ($inputString) => {
   console.log('query type: imdb');
@@ -49,12 +44,12 @@ const requestByIMDB = async ($inputString) => {
      // ==============================================
     } // end else error
    } catch (err) {
-     console.log('Error: ', err.message);
+     console.log('Error: ', err);
      $('#result-container').empty();
      $('#input-box').val('');
-     $('#result-container').text(err.message);
+     $('#result-container').text(err);
    } 
-}
+};
 
 const requestBySearch = async ($inputString) => {
   console.log('query type: search');
@@ -75,24 +70,29 @@ const requestBySearch = async ($inputString) => {
   } catch (err) {
     $('#result-container').empty();
     $('#input-box').val('');   
-    $('#result-container').text(err.message); 
+    $('#result-container').text(err); 
   }
-}
+};
 
 // MOVIE RESULTS DISPLAY
 // All the movie results are in an array called .Search
 // Loop over the results and give each result (each movie) a container and an 'add' button
-const displayAllMovieResults = function(searchResults) {
+const displayAllMovieResults = (searchResults) => {
 
   // Generates rows to put the results for proper formatting. There will be three results per row, so divide the number of results by 3.
+  let $row = null;
+  
   for (let i=0; i < Math.floor((searchResults.Search.length / 3) + 1); i++) {
-    let $row = $('<div>').attr('id', 'row' + i);
+    $row = $('<div>').attr('id', 'row' + i);
     $row.addClass("row");
     $('#result-container').append($row);
   } // end generate rows
 
-  searchResults.Search.forEach(function(result, index) {
-    const $movieContainer = $('<div>');
+  let $movieContainer = null;
+  let $addButton = null;
+  
+  searchResults.Search.forEach((result, index) => {
+    $movieContainer = $('<div>');
     $movieContainer.append($('<h3>').text(result.Title));
     $movieContainer.append($('<p>').text(result.Year));
     if (result.Poster == "N/A") { result.Poster = "https://svn.alfresco.com/repos/alfresco-open-mirror/alfresco/COMMUNITYTAGS/V5.0.a/root/projects/repository/config/alfresco/thumbnail/thumbnail_placeholder_256_qt.png"; };
@@ -101,21 +101,21 @@ const displayAllMovieResults = function(searchResults) {
     // Each movie's 'add' button will have the imdb ID as an id.
     // This is used when the 'add' button is clicked, in order to make yet another ajax request,
     // this time to the single-movie api in order to get more detailed results on the chosen movie.
-    const $addButton = $('<button id=' + result.imdbID + ' type="submit">ADD</button>');
+    $addButton = $('<button id=' + result.imdbID + ' type="submit">ADD</button>');
     $addButton.addClass('hit-button');
     $addButton.on('click', getMoreMovieInfoFromOMDB);
     $movieContainer.append($addButton);
     $movieContainer.addClass('col-lg-4 text-center');
 
-    // There will be a better way to separate the results, in threes, into respective rows, I know it, other than just using another loop
+    // Temporary solution
     if (index < 3 ) { $('#row0').append($movieContainer); }
     if (index >= 3 && index <= 5 ) { $('#row1').append($movieContainer); }
     if (index >= 6 && index <= 8 ) { $('#row2').append($movieContainer); }
     if (index >= 9) { $('#row3').append($movieContainer); }
   });
-} // end displayAllMovieResults
+}; // end displayAllMovieResults
 
-const displaySingleMovieResult = function(result) {
+const displaySingleMovieResult = (result) => {
   const $movieContainer = $('<div>');
   $movieContainer.append($('<h3>').text(result.Title));
   $movieContainer.append($('<p>').text(result.Year));
@@ -131,7 +131,7 @@ const displaySingleMovieResult = function(result) {
   $movieContainer.append($addButton);
   $movieContainer.addClass('col-lg-4 text-center');
   $('#result-container').append($movieContainer);
-}
+};
 
 // ===================================================================================
 // 'ADD' BUTTON FUNCTIONALITY
@@ -141,7 +141,7 @@ const displaySingleMovieResult = function(result) {
 const getMoreMovieInfoFromOMDB = async (event) => {
   displayLoadingGif();
   // the imdb id is the 'add' button's id.
-  console.log('Retrieving movie by imdb id: ', event.currentTarget.id);
+  console.log('Retrieving movie by imdb id: ' + event.currentTarget.id + ' ...');
   try {
     // Retrieves detailed information about the chosen title using imdb id within the search string
     let result = await $.ajax('https://www.omdbapi.com/?i=' + event.currentTarget.id + '&y=&plot=short&r=json&apikey=57dc4908')
@@ -156,22 +156,22 @@ const getMoreMovieInfoFromOMDB = async (event) => {
        // =====================================
      } // end if error
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     $('#result-container').empty();
     $('#input-box').val('');   
-    $('#result-container').text(err.message);     
+    $('#result-container').text(err);     
   }
-} // end getMoreMovieInfoFromOMDB
+}; // end getMoreMovieInfoFromOMDB
 
 
 // ADDS THE CHOSEN TITLE TO THE USER'S COLLECTION
-const sendMovieDataToServer = function(result) {
+const sendMovieDataToServer = (result) => {
   // AJAX request to the server with the movie information (result)
   $.ajax({
     method: 'POST',
     url: '/movies',
     data: result
-  }).done(function(response) {
+  }).done((response) => {
     // When the request is done, redirect to the new movie show page
     window.location.href = '/movies/' + response.movieId;
   });
