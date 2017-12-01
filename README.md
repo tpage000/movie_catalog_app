@@ -28,15 +28,11 @@
 
 * Validation for checking if a movie already exists before add
 
-* If movie is not found on OMDB, provide a form to add a movie manually
- * Use default poster for this until I validate the poster size
-
 * Remove unwanted dates
 
-* Format alphabetical column display
- * Movies beginning with numbers should come last
+* Movies beginning with numbers should come last in alphabetical list
 
-* Import movies using JSON text
+* If movie is not found on OMDB, provide a form to add a movie manually
 
 ----
 ### Features coming:
@@ -48,6 +44,8 @@
 * Try out some kinda resizing / zoom on the data sets
 
 * Eventually make the landing page something other than signup / login.
+
+* Import movies using JSON text
 
 ----
 ### Bugs / Gremlins / Errors:
