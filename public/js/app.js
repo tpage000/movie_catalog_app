@@ -47,7 +47,7 @@ const requestByIMDB = async ($inputString) => {
      console.log('Error: ', err);
      $('#result-container').empty();
      $('#input-box').val('');
-     $('#result-container').text(err);
+     $('#result-container').text('TRY AGAIN -- ' + err.statusText); 
    } 
 };
 
@@ -71,7 +71,7 @@ const requestBySearch = async ($inputString) => {
     console.log('Error: ', err);
     $('#result-container').empty();
     $('#input-box').val('');   
-    $('#result-container').text(err); 
+    $('#result-container').text('TRY AGAIN -- ' + err.statusText); 
   }
 };
 
@@ -160,7 +160,7 @@ const getMoreMovieInfoFromOMDB = async (event) => {
     console.log('Error: ', err);
     $('#result-container').empty();
     $('#input-box').val('');   
-    $('#result-container').text(err);     
+    $('#result-container').text('TRY AGAIN -- ' + err.statusText);      
   }
 }; // end getMoreMovieInfoFromOMDB
 
@@ -178,7 +178,7 @@ const sendMovieDataToServer = async (movie) => {
     console.log('Error: ', err);
     $('#result-container').empty();
     $('#input-box').val('');   
-    $('#result-container').text(err);         
+    $('#result-container').text('TRY AGAIN -- Could not complete request');         
   }
 } // end sendMovieDataToServer
 
