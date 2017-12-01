@@ -165,16 +165,20 @@ const getMoreMovieInfoFromOMDB = async (event) => {
 
 
 // ADDS THE CHOSEN TITLE TO THE USER'S COLLECTION
-const sendMovieDataToServer = (result) => {
-  // AJAX request to the server with the movie information (result)
-  $.ajax({
-    method: 'POST',
-    url: '/movies',
-    data: result
-  }).done((response) => {
-    // When the request is done, redirect to the new movie show page
+const sendMovieDataToServer = async (movie) => {
+  try {
+    let response = await $.ajax({
+      method: 'POST',
+      url: '/movies',
+      data: movie
+    });
     window.location.href = '/movies/' + response.movieId;
-  });
+  } catch (err) {
+    console.log(err);
+    $('#result-container').empty();
+    $('#input-box').val('');   
+    $('#result-container').text(err);         
+  }
 } // end sendMovieDataToServer
 
 // END 'ADD' BUTTON FUNCTIONALITY
