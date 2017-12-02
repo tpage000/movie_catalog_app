@@ -89,7 +89,7 @@ router.post('/', async function(req, res) {
   const user = await User.findById(req.session.loggedInUser.id);
   // abstract this in to the model
   for (let movie of user.movies) {
-    if (movie.Title == req.body.Title) {
+    if (movie.Title == req.body.Title && movie.Year == req.body.Year && movie.Director == req.body.Director) {
       console.log('movie by that title already exists! ');
       movieThatAlreadyExists = movie;
     }
