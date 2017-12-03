@@ -6,6 +6,7 @@ const dotenv         = require('dotenv').config();
 const methodOverride = require('method-override');
 const mongoose       = require('mongoose');
 const session        = require('express-session');
+const morgan         = require('morgan');
 
 // PORT
 const port = process.env.PORT || 3000;
@@ -36,7 +37,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(methodOverride('_method'));
-
+app.use(morgan('dev'));
 app.use('/users', usersController);
 app.use('/movies', isLoggedIn, moviesController);
 app.use('/imports', isLoggedIn, importController);
