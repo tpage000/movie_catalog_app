@@ -1,27 +1,28 @@
 // DEPENDENCIES
-var express        = require('express'),
-    app            = express(),
-    dotenv         = require('dotenv').config();
-    bodyParser     = require('body-parser'),
-    methodOverride = require('method-override'),
-    mongoose       = require('mongoose'),
-    session        = require('express-session');
+
+const express        = require('express');
+const app            = express();
+const dotenv         = require('dotenv').config();
+const methodOverride = require('method-override');
+const mongoose       = require('mongoose');
+const session        = require('express-session');
 
 // PORT
-var port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 // DB
-var mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/movies_app'
-mongoose.connect(mongoURI);
+const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost/movies_app'
+mongoose.connect(mongoURI, { useMongoClient: true });
 mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-mongoose.connection.once('open', function() {
-  console.log('DB: Connected');
+mongoose.connection.once('open', () => {
+  console.log('DB: Connected ', mongoURI);
 });
+mongoose.Promise = global.Promise;
 
 // CONTROLLERS
-var moviesController = require('./controllers/moviesController');
-var usersController = require('./controllers/usersController');
-var importController = require('./controllers/importController');
+const moviesController = require('./controllers/moviesController');
+const usersController = require('./controllers/usersController');
+const importController = require('./controllers/importController');
 
 //==============================================================
 // MIDDLEWARE
@@ -32,8 +33,8 @@ app.use(session({
   maxAge: 2592000000
 }));
 app.use(express.static('public'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(methodOverride('_method'));
 
 app.use('/users', usersController);
@@ -61,7 +62,7 @@ function skipLogIn(req, res, next) {
 //====================================================================
 
 // ROOT ROUTE
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.redirect('/signup');
 });
 
@@ -70,27 +71,26 @@ app.get('/', function(req, res) {
 
 // SIGNUP FORM
 // GET /signup
-app.get('/signup', skipLogIn, function(req, res) {
+app.get('/signup', skipLogIn, (req, res) => {
   res.render('users/signup.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, wrongUser: req.session.wrongUser, badAttempt: req.session.badAttempt });
 });
 
 // LOGOUT
 // GET /logout
-app.get('/logout', function(req, res) {
-  req.session.destroy(function(err) {
-    if (err) {
-      console.log('error destroying session: ', req.session);
-    } else {
-      res.redirect('/signup');
-    }
-  });
+app.get('/logout', async (req, res) => {
+  try {
+    await req.session.destroy();
+    res.redirect('/signup');
+  } catch (err) {
+    console.log('error destroying session: ', req.session);
+  }
 });
 
 // End Register
 // ============================================================
 
 // LISTENER
-app.listen(port, function() {
+app.listen(port, () => {
   console.log('=================================');
   console.log('MOVIE APP RUNNING ON PORT: ', port);
   console.log('=================================')
