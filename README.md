@@ -26,9 +26,13 @@
 ----
 ### Main things to implement:
 
-* Validation for checking if a movie already exists before add
+* Finish updating ES5 to ESNext and async / await
 
 * Remove unwanted dates
+
+* Refactor or remove current import
+
+* Refactor sorting code
 
 * Movies beginning with numbers should come last in alphabetical list
 
@@ -39,11 +43,13 @@
 
 * Add reviews / comments to your movies so you can remember what you were thinking at the time
 
-* List movies by rating only (currently they are listed by rating within each chronological year)
+* Search or filter your movies list
+
+* Show that movies are ordered by rating for each year
 
 * Try out some kinda resizing / zoom on the data sets
 
-* Eventually make the landing page something other than signup / login.
+* Make the landing page something other than signup / login.
 
 * Import movies using JSON text
 
@@ -56,3 +62,5 @@
 
 
 <small>Thom Page, December 2016</small>
+
+<small>Updated December 2017</small>
