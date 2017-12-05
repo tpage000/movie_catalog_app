@@ -5,7 +5,7 @@
     <% } %>
   </h5>
   <% movie.DatesWatched.forEach(function(date) { %>      
-      <form action="/movies/<%= movie.id %>/remove_date?_method=PUT" method="POST">
+      <form id="remove-date-form" action="/movies/<%= movie.id %>/remove_date?_method=PUT" method="POST">
         <input type="hidden" name="yymmdd" value="<%= date.yymmdd %>" />
         <button class="label label-info lb-lg"><%= date.dateString %></button>
       </form>
