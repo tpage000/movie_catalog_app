@@ -153,7 +153,7 @@ router.put('/:movie_id/remove_date', async (req, res) => {
   try {
     let movie = await Movie.findByIdAndUpdate(
       req.params.movie_id, 
-      { "$pull": { "$DatesWatched": $in: req.body }},
+      { "$pull": { "$DatesWatched": { "$in": req.body }}},
       { new: true }
     );
     console.log('movie after deleting date: ', movie);
