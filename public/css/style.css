@@ -98,3 +98,7 @@ body {
   border: none;
   border-radius: 10%;
 }
+
+#remove-date-form {
+  display: inline-block;
+}

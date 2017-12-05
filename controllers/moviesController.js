@@ -121,7 +121,7 @@ router.post('/:movie_id/update_rating', function(req, res) {
   });
 });
 
-// UPDATE MOVIE DatesWatched array
+// UPDATE MOVIE -- Create date: Add date to DatesWatched array
 // POST /movies/:movie_id/update_date
 router.post('/:movie_id/update_date', function(req, res) {
   // Incoming date is formatted with dashes: 2016-12-11
@@ -147,6 +147,22 @@ router.post('/:movie_id/update_date', function(req, res) {
     });
   });
 });
+
+// UPDATE MOVIE -- Remove date: Remove date from DatesWatched array
+router.put('/:movie_id/remove_date', async (req, res) => {
+  try {
+    let movie = await Movie.findByIdAndUpdate(
+      req.params.movie_id, 
+      { $pull: { DatesWatched: { yymmdd: req.body.yymmdd }}},
+      { new: true }
+    );
+    res.redirect('back');
+  } catch (err) {
+    console.log('error removing date: ', err);
+    res.redirect('back');
+  }
+});
+
 
 // DELETE MOVIE
 // DELETE /movies/:movie_id
