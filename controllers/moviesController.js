@@ -150,12 +150,20 @@ router.post('/:movie_id/update_date', function(req, res) {
 
 // UPDATE MOVIE -- Remove date: Remove date from DatesWatched array
 router.put('/:movie_id/remove_date', async (req, res) => {
+
   try {
-    let movie = await Movie.findByIdAndUpdate(
+    let updatedMovie = await Movie.findByIdAndUpdate(
       req.params.movie_id, 
       { $pull: { DatesWatched: { yymmdd: req.body.yymmdd }}},
       { new: true }
     );
+        
+    // manual solution to update user's movie
+    let user = await User.findById(req.session.loggedInUser.id);
+    user.movies.id(updatedMovie._id).remove();
+    user.movies.push(updatedMovie);
+    await user.save();
+    
     res.redirect('back');
   } catch (err) {
     console.log('error removing date: ', err);
@@ -163,6 +171,12 @@ router.put('/:movie_id/remove_date', async (req, res) => {
   }
 });
 
+// works in mongo shell but not Mongoose
+// let user = await User.findByIdAndUpdate(
+//   req.session.loggedInUser.id, 
+//   { $pull: { 'movies.$.DatesWatched': { yymmdd: req.body.yymmdd }}},
+//   { new: true }
+// );
 
 // DELETE MOVIE
 // DELETE /movies/:movie_id
