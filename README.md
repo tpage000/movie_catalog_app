@@ -28,11 +28,9 @@
 
 * Finish updating ES5 to ESNext and async / await
 
-* Remove unwanted dates
+* Refactor sorting code
 
 * Refactor or remove current import
-
-* Refactor sorting code
 
 * Movies beginning with numbers should come last in alphabetical list
 
