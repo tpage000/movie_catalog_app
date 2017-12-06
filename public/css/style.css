@@ -102,3 +102,7 @@ body {
 .remove-date-form {
   display: inline-block;
 }
+
+form button:hover {
+  background-color: grey;
+}
