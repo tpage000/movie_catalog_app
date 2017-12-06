@@ -18,10 +18,9 @@ $(function() {
     console.log('add review button');
   });
   
-  $('.remove-date-form').submit(( event ) => {
-    console.log('form ...');
-    confirm('Are you sure you want to remove this date?');
-    event.preventDefault();
+  $('.remove-date-form').on('submit', () => {
+    let bool = confirm('Are you sure you want to remove this date?');
+    return bool;
   });
   
 });
