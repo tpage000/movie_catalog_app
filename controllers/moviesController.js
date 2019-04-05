@@ -58,7 +58,6 @@ router.get('/release_date', function(req, res) {
 // GET /movies/recent
 router.get('/recent', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
-    console.log('recent movies: ', foundUser.moviesRecent);
     res.render('movies/index_recent.ejs', { movies: foundUser.moviesRecent });
   });
 });
