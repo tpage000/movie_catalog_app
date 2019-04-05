@@ -85,7 +85,6 @@ router.get('/:movie_id', function(req, res) {
 // CREATE NEW MOVIE
 // POST /movies
 router.post('/', async function(req, res) {
-  
   let movieThatAlreadyExists = null;
   const user = await User.findById(req.session.loggedInUser.id);
   // abstract this in to the model
@@ -99,10 +98,14 @@ router.post('/', async function(req, res) {
   if (movieThatAlreadyExists) {
     res.send({ movieId: movieThatAlreadyExists.id });
   } else {
-    const createdMovie = await Movie.create(req.body);
-    user.movies.push(createdMovie);
-    await user.save();
-    res.send({ movieId: createdMovie.id });
+    try {
+      const createdMovie = await Movie.create(req.body);
+      user.movies.push(createdMovie);
+      await user.save();
+      res.send({ movieId: createdMovie.id });
+    } catch (err) {
+      res.send({ message: 'Error creating movie' })
+    }      
   }
 
 }); // end create route
