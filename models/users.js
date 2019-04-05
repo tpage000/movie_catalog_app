@@ -145,9 +145,15 @@ userSchema.virtual('moviesColumnsYear').get(function() {
 userSchema.virtual('moviesRecent').get(function() {
   var allDatesByMovie = [];
   this.movies.forEach(function(movie) {
-    movie.DatesWatched.forEach(function(date) {
-      allDatesByMovie.push({ id: movie._id, Title: movie.Title, dateString: date.dateString, yymmdd: date.yymmdd, Rating: movie.Rating });
-    });
+    if (!movie) {
+      console.log('=============================')
+      console.log('Movie missing. CORRUPTED DATA')
+      console.log('=============================')
+    } else {
+      movie.DatesWatched.forEach(function(date) {
+        allDatesByMovie.push({ id: movie._id, Title: movie.Title, dateString: date.dateString, yymmdd: date.yymmdd, Rating: movie.Rating });
+      });
+    }
   });
   // Sort by 'yymmdd' and reverse so that the latest films come first
   return sortArrayOfObjects(allDatesByMovie, "yymmdd").reverse();
