@@ -114,12 +114,14 @@ router.post('/', async function(req, res) {
     res.send({ movieId: movieThatAlreadyExists.id });
   } else {
     try {
+      console.log('Creating movie: ', req.body)
       const createdMovie = await Movie.create(req.body);
       user.movies.push(createdMovie);
       await user.save();
       res.send({ movieId: createdMovie.id });
     } catch (err) {
-      res.send({ message: 'Error creating movie' })
+      console.log('error creating movie: ', err);
+      res.send({ message: 'Error creating movie', error: err })
     }      
   }
 
