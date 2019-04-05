@@ -17,12 +17,27 @@ router.get('/new', function(req, res) {
 });
 // =========================================================
 
+const validateData = arrayOfMovieObjects => {
+  let isValid = true;
+  arrayOfMovieObjects.forEach(movie => {
+    if (!movie) {
+      isValid = false;
+      console.log('Corrupted data, no movie', movie)
+      return
+    } else if (!movie.Title || !movie.Year) {
+      console.log('Corrupted data for movie: ', movie);
+      isValid = false;
+    } 
+  })
+  return isValid;
+}
 
 // MOVIES INDEX ALPHABETICAL AND WITH COLUMN HEADERS
 // GET /movies/alphabetical_columns
 router.get('/alphabetical_columns', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // alphabetical column movie data is provided using mongoose 'virtual' in models/users.js
+    validateData(foundUser.movies);
     res.render('movies/index_columns_alpha.ejs', { movies: foundUser.moviesColumnsAlpha });
   });
 });

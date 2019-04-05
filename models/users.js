@@ -38,32 +38,20 @@ userSchema.methods.authenticate = function(password) {
 // The 'key' param is the key in each object to use for the sorting criterion
 var sortArrayOfObjects = function(arrayOfObjects, key) {
   return arrayOfObjects.slice().sort(function(a, b) {
-    if (a && b) {
-      if (a[key] < b[key]) { return -1; }
-      if (a[key] > b[key]) { return 1; }
-      return 0;
-    } else {
-      console.log('Movie missing. CORRUPTED DATA');
-      console.log(a, b)
-      return 0;
-    }
+    if (a[key] < b[key]) { return -1; }
+    if (a[key] > b[key]) { return 1; }
+    return 0;
   });
 };
 
 // Same thing, but different for movie titles
 var sortArrayOfObjectsByTitle = function(arrayOfObjects) {
   return arrayOfObjects.slice().sort(function(a, b) {
-    if (a && b) {
-      var titleA = validateTitle(a.Title.toLowerCase());
-      var titleB = validateTitle(b.Title.toLowerCase());
-      if (titleA < titleB) { return -1; }
-      if (titleA > titleB) { return 1; }
-      return 0;
-    } else {
-      console.log('Movie missing. CORRUPTED DATA')
-      console.log(a, b)
-      return 0;
-    }
+    var titleA = validateTitle(a.Title.toLowerCase());
+    var titleB = validateTitle(b.Title.toLowerCase());
+    if (titleA < titleB) { return -1; }
+    if (titleA > titleB) { return 1; }
+    return 0;
   });
 };
 
@@ -83,17 +71,7 @@ var validateTitle = function(originalTitle) {
   return originalTitle;
 } // end validateTitle
 
-// Virtual for sorting the user's movies array by alphabetical movie.Title
-// [{Title: "An Autumn Afternoon"}, {Title: "Late Spring"}, {Title: "Tokyo Story"}]
-userSchema.virtual('moviesAlphabetical').get(function() {
-  return sortArrayOfObjectsByTitle(this.movies);
-});
-
-// Virtual for sorting the user's movies array by chronological movie.Year
-userSchema.virtual('moviesChronological').get(function() {
-  return sortArrayOfObjects(this.movies, "Year");
-});
-
+//
 // Virtual for sorting the user's movies array by alphabetical movie.Title AND
 // return an object whose keys are the relevant first letters
 // { A: [{Title: "An Autumn Afternoon"}], L: [{Title: "Late Spring"}], T: [{Title: "Tokyo Story"}]}
@@ -148,6 +126,17 @@ userSchema.virtual('moviesColumnsYear').get(function() {
     });
   }
   return obj;
+});
+
+// Virtual for sorting the user's movies array by alphabetical movie.Title
+// [{Title: "An Autumn Afternoon"}, {Title: "Late Spring"}, {Title: "Tokyo Story"}]
+userSchema.virtual('moviesAlphabetical').get(function() {
+  return sortArrayOfObjectsByTitle(this.movies);
+});
+
+// Virtual for sorting the user's movies array by chronological movie.Year
+userSchema.virtual('moviesChronological').get(function() {
+  return sortArrayOfObjects(this.movies, "Year");
 });
 
 // Virtual for sorting all movies by DatesWatched
