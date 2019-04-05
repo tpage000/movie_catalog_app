@@ -155,66 +155,40 @@ router.post('/:movie_id/update_date', async (req, res) => {
   var dateString = dt[0] + ' ' + dt[1] + ' ' + dt[2] + ' ' + dt[3];
   var dateObject = { dateString: dateString, yymmdd: req.body.newDate }
 
-  // update movie independently
   try {
-    let foundMovie = await Movie.findById(req.params.movie_id)
-    console.log('found movie to update: ', foundMovie._id);
-    foundMovie.DatesWatched.push(dateObject);
+    let updatedMovie = await Movie.findByIdAndUpdate(req.params.movie_id,
+      { $push: { DatesWatched: dateObject } },
+      { new: true }
+    )
+    console.log('Updated movie: ', updatedMovie._id)
     try {
-      let savedMovie = await foundMovie.save();
-      console.log('saved movie: ', savedMovie._id);
+      let updatedUser = await User.findByIdAndUpdate(
+        req.session.loggedInUser.id,
+        { $pull: { 'movies': { _id: updatedMovie._id  } }},
+        { new: true }
+      )
+      console.log('Updated user -- removedMovie from user')
       try {
-        // update user's movies collection with updated movie
-        let foundUser = await User.findById(req.session.loggedInUser.id);
-        console.log('found user to update: ', foundUser._id);
-        const movieOfUser = foundUser.movies.id(savedMovie._id);
-        console.log('movie to remove and update: ', movieOfUser._id);
-        movieOfUser.remove();
-        foundUser.movies.push(savedMovie);
-        try {
-          let savedUser = await foundUser.save();
-          console.log('saved user: ', savedUser._id)
-          // SUCCESS
-          res.redirect(`/movies/${savedMovie._id}`);
-          /////////
-        } catch (saveUserErr) {
-          console.log('Could not save user', saveUserErr)
-          res.send({ message: 'Could not save user', error: saveUserErr })
-        }
-      } catch (findUserErr) {
-        console.log('Could not find user', findUserErr)
-        res.send({ message: 'Could not find user', error: findUserErr })
+        let updatedUserWithMovie = await User.findByIdAndUpdate(
+          req.session.loggedInUser.id,
+          { $push: { 'movies': updatedMovie } }
+        )
+        console.log('Updated user -- added movie with new dates');
+        // SUCCESS
+        res.redirect(`/movies/${updatedMovie._id}`);
+        //////////
+      } catch (updatedWithMovieErr) {
+        console.log('Error updating user with movie');
+        res.send({ message: 'Error adding date to user movie', error: updatedWithMovieErr.message })
       }
-    } catch (saveMovieErr) {
-        console.log('Could not save movie', saveMovieErr)
-        res.send({ message: 'Could not save movie', error: saveMovieErr })
+    } catch (updateUserErr) {
+      console.log('Error updating user: ', updateUserErr)
+      res.send({ message: 'Error updating user', error: updateUserErr.message })
     }
-  } catch(findMovieErr) {
-      console.log('Could not find movie', findMovieErr)
-      res.send({ message: 'Could not find movie', error: findMovieErr })
+  } catch (updateMovieErr) {
+    console.log('Error updating movie ', updateMovieErr)
+    res.send({ message: 'Error updating movie', error: updateMovieErr })
   }
-
-
-
-  // Movie.findById(req.params.movie_id, function(err, foundMovie) {
-  //   foundMovie.DatesWatched.push(dateObject);
-  //   foundMovie.save(function(err, savedMovie) {
-  //     console.log('Movie saved with new date: ', savedMovie)
-  //     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
-  //       foundUser.movies.id(req.params.movie_id).remove();
-  //       foundUser.movies.push(savedMovie);
-  //       foundUser.save(function(err, savedUser) {
-  //         if (err) {
-  //           console.log('Error saving movie new date')
-  //           res.send({ message: 'Error saving movie date', error: err })
-  //         } else {
-  //           console.log('Movie saved to user: ', foundUser.movies.id(savedMovie.id))
-  //           res.redirect('/movies/' + savedMovie.id);
-  //         }
-  //       });
-  //     });
-  //   });
-  // });
 });
 
 // UPDATE MOVIE -- Remove date: Remove date from DatesWatched array
