@@ -17,6 +17,7 @@ router.get('/new', function(req, res) {
 });
 // =========================================================
 
+// Use this method for debugging purposes if data might be corrupted
 const validateData = arrayOfMovieObjects => {
   let isValid = true;
   arrayOfMovieObjects.forEach(movie => {
@@ -37,7 +38,7 @@ const validateData = arrayOfMovieObjects => {
 router.get('/alphabetical_columns', function(req, res) {
   User.findById(req.session.loggedInUser.id, function(err, foundUser) {
     // alphabetical column movie data is provided using mongoose 'virtual' in models/users.js
-    validateData(foundUser.movies);
+    // validateData(foundUser.movies);
     res.render('movies/index_columns_alpha.ejs', { movies: foundUser.moviesColumnsAlpha });
   });
 });
