@@ -158,11 +158,18 @@ router.post('/:movie_id/update_date', function(req, res) {
   Movie.findById(req.params.movie_id, function(err, foundMovie) {
     foundMovie.DatesWatched.push(dateObject);
     foundMovie.save(function(err, savedMovie) {
+      console.log('Movie saved with new date: ', savedMovie)
       User.findById(req.session.loggedInUser.id, function(err, foundUser) {
         foundUser.movies.id(req.params.movie_id).remove();
         foundUser.movies.push(savedMovie);
         foundUser.save(function(err, savedUser) {
-          res.redirect('/movies/' + savedMovie.id);
+          if (err) {
+            console.log('Error saving movie new date')
+            res.send({ message: 'Error saving movie date', error: err })
+          } else {
+            console.log('Movie saved to user: ', foundUser.movies.id(savedMovie.id))
+            res.redirect('/movies/' + savedMovie.id);
+          }
         });
       });
     });
