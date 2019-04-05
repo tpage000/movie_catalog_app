@@ -144,7 +144,7 @@ router.post('/:movie_id/update_rating', function(req, res) {
 
 // UPDATE MOVIE -- Create date: Add date to DatesWatched array
 // POST /movies/:movie_id/update_date
-router.post('/:movie_id/update_date', function(req, res) {
+router.post('/:movie_id/update_date', async (req, res) => {
   // Incoming date is formatted with dashes: 2016-12-11
   // If dashes are used in new Date() it will give you yesterday's date.
   // Convert dashes to slashes to get the proper date:
@@ -155,25 +155,66 @@ router.post('/:movie_id/update_date', function(req, res) {
   var dateString = dt[0] + ' ' + dt[1] + ' ' + dt[2] + ' ' + dt[3];
   var dateObject = { dateString: dateString, yymmdd: req.body.newDate }
 
-  Movie.findById(req.params.movie_id, function(err, foundMovie) {
+  // update movie independently
+  try {
+    let foundMovie = await Movie.findById(req.params.movie_id)
+    console.log('found movie to update: ', foundMovie._id);
     foundMovie.DatesWatched.push(dateObject);
-    foundMovie.save(function(err, savedMovie) {
-      console.log('Movie saved with new date: ', savedMovie)
-      User.findById(req.session.loggedInUser.id, function(err, foundUser) {
-        foundUser.movies.id(req.params.movie_id).remove();
+    try {
+      let savedMovie = await foundMovie.save();
+      console.log('saved movie: ', savedMovie._id);
+      try {
+        // update user's movies collection with updated movie
+        let foundUser = await User.findById(req.session.loggedInUser.id);
+        console.log('found user to update: ', foundUser._id);
+        const movieOfUser = foundUser.movies.id(savedMovie._id);
+        console.log('movie to remove and update: ', movieOfUser._id);
+        movieOfUser.remove();
         foundUser.movies.push(savedMovie);
-        foundUser.save(function(err, savedUser) {
-          if (err) {
-            console.log('Error saving movie new date')
-            res.send({ message: 'Error saving movie date', error: err })
-          } else {
-            console.log('Movie saved to user: ', foundUser.movies.id(savedMovie.id))
-            res.redirect('/movies/' + savedMovie.id);
-          }
-        });
-      });
-    });
-  });
+        try {
+          let savedUser = await foundUser.save();
+          console.log('saved user: ', savedUser._id)
+          // SUCCESS
+          res.redirect(`/movies/${savedMovie._id}`);
+          /////////
+        } catch (saveUserErr) {
+          console.log('Could not save user', saveUserErr)
+          res.send({ message: 'Could not save user', error: saveUserErr })
+        }
+      } catch (findUserErr) {
+        console.log('Could not find user', findUserErr)
+        res.send({ message: 'Could not find user', error: findUserErr })
+      }
+    } catch (saveMovieErr) {
+        console.log('Could not save movie', saveMovieErr)
+        res.send({ message: 'Could not save movie', error: saveMovieErr })
+    }
+  } catch(findMovieErr) {
+      console.log('Could not find movie', findMovieErr)
+      res.send({ message: 'Could not find movie', error: findMovieErr })
+  }
+
+
+
+  // Movie.findById(req.params.movie_id, function(err, foundMovie) {
+  //   foundMovie.DatesWatched.push(dateObject);
+  //   foundMovie.save(function(err, savedMovie) {
+  //     console.log('Movie saved with new date: ', savedMovie)
+  //     User.findById(req.session.loggedInUser.id, function(err, foundUser) {
+  //       foundUser.movies.id(req.params.movie_id).remove();
+  //       foundUser.movies.push(savedMovie);
+  //       foundUser.save(function(err, savedUser) {
+  //         if (err) {
+  //           console.log('Error saving movie new date')
+  //           res.send({ message: 'Error saving movie date', error: err })
+  //         } else {
+  //           console.log('Movie saved to user: ', foundUser.movies.id(savedMovie.id))
+  //           res.redirect('/movies/' + savedMovie.id);
+  //         }
+  //       });
+  //     });
+  //   });
+  // });
 });
 
 // UPDATE MOVIE -- Remove date: Remove date from DatesWatched array
