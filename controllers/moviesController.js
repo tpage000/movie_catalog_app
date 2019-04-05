@@ -193,21 +193,23 @@ router.post('/:movie_id/update_date', async (req, res) => {
 
 // UPDATE MOVIE -- Remove date: Remove date from DatesWatched array
 router.put('/:movie_id/remove_date', async (req, res) => {
-
   try {
     let updatedMovie = await Movie.findByIdAndUpdate(
       req.params.movie_id, 
       { $pull: { DatesWatched: { yymmdd: req.body.yymmdd }}},
       { new: true }
     );
-        
     // manual solution to update user's movie
     let user = await User.findById(req.session.loggedInUser.id);
     user.movies.id(updatedMovie._id).remove();
     user.movies.push(updatedMovie);
-    await user.save();
-    
-    res.redirect('back');
+    try {
+      let savedUser = await user.save();
+      res.redirect('back');
+    } catch (saveUserErr) {
+      console.log('error saving user: ', saveUserErr);
+      res.send({ message: 'Error saving user', error: saveUserErr.message })
+    }
   } catch (err) {
     console.log('error removing date: ', err);
     res.redirect('back');
