@@ -43,9 +43,12 @@ var sortArrayOfObjects = function(arrayOfObjects, key) {
     return 0;
   });
 };
+
 // Same thing, but different for movie titles
 var sortArrayOfObjectsByTitle = function(arrayOfObjects) {
   return arrayOfObjects.slice().sort(function(a, b) {
+    console.log('a: ', a)
+    console.log('b: ', b)
     var titleA = validateTitle(a.Title.toLowerCase());
     var titleB = validateTitle(b.Title.toLowerCase());
     if (titleA < titleB) { return -1; }
