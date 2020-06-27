@@ -18,7 +18,7 @@ router.post('/', function(req, res) {
       req.session.wrongPass = false;
       req.session.wrongUser = '';
       req.session.userTaken = true;
-      res.redirect('/signup');
+      res.redirect('/enter');
     // Else go to the user's show page -- New Movie
     } else {
       req.session.wrongPass = false;
@@ -41,7 +41,7 @@ router.post('/login', function(req, res) {
       req.session.userTaken = false;
       req.session.wrongPass = false;
       req.session.wrongUser = req.body.name;
-      res.redirect('/signup');
+      res.redirect('/enter');
 
     // calls the 'authenticate' method in the user model (returns true or false)
     // for checking the password --->
@@ -59,7 +59,7 @@ router.post('/login', function(req, res) {
       req.session.userTaken = false;
       req.session.wrongUser = '';
       req.session.wrongPass = true;
-      res.redirect('/signup');
+      res.redirect('/enter');
     }
   });
 });

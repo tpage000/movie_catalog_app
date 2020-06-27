@@ -47,7 +47,7 @@ function isLoggedIn(req, res, next) {
     return next();
   } else {
     req.session.badAttempt = true;
-    res.redirect('/signup');
+    res.redirect('/auth');
   }
 }
 // if a user is logged in, they can skip the signup page (used for '/signup' route)
@@ -62,7 +62,7 @@ function skipLogIn(req, res, next) {
 
 // ROOT ROUTE
 app.get('/', (req, res) => {
-  res.redirect('/signup');
+  res.redirect('/enter');
 });
 
 //============================================================
@@ -70,8 +70,8 @@ app.get('/', (req, res) => {
 
 // SIGNUP FORM
 // GET /signup
-app.get('/signup', skipLogIn, (req, res) => {
-  res.render('users/signup.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, wrongUser: req.session.wrongUser, badAttempt: req.session.badAttempt });
+app.get('/enter', skipLogIn, (req, res) => {
+  res.render('users/auth.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, wrongUser: req.session.wrongUser, badAttempt: req.session.badAttempt });
 });
 
 // LOGOUT
@@ -79,7 +79,7 @@ app.get('/signup', skipLogIn, (req, res) => {
 app.get('/logout', async (req, res) => {
   try {
     await req.session.destroy();
-    res.redirect('/signup');
+    res.redirect('/enter');
   } catch (err) {
     console.log('error destroying session: ', req.session);
   }
@@ -92,5 +92,5 @@ app.get('/logout', async (req, res) => {
 app.listen(port, () => {
   console.log('=================================');
   console.log('MOVIE APP RUNNING ON PORT: ', port);
-  console.log('=================================')
+  console.log('=================================');
 });
