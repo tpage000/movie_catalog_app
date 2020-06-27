@@ -2,11 +2,11 @@
 
 const express        = require('express');
 const app            = express();
-const dotenv         = require('dotenv').config();
 const methodOverride = require('method-override');
 const mongoose       = require('mongoose');
 const session        = require('express-session');
 const morgan         = require('morgan');
+require('dotenv').config();
 
 // PORT
 const port = process.env.PORT || 3000;
@@ -29,7 +29,7 @@ const usersController = require('./controllers/usersController');
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   maxAge: 2592000000
 }));
 app.use(express.static('public'));
@@ -47,7 +47,7 @@ function isLoggedIn(req, res, next) {
     return next();
   } else {
     req.session.badAttempt = true;
-    res.redirect('/auth');
+    res.redirect('/enter');
   }
 }
 // if a user is logged in, they can skip the signup page (used for '/signup' route)
@@ -71,7 +71,11 @@ app.get('/', (req, res) => {
 // SIGNUP FORM
 // GET /signup
 app.get('/enter', skipLogIn, (req, res) => {
-  res.render('users/auth.ejs', { userTaken: req.session.userTaken,  wrongPass: req.session.wrongPass, wrongUser: req.session.wrongUser, badAttempt: req.session.badAttempt });
+  res.render('users/auth.ejs', { 
+    userTaken: req.session.userTaken,  
+    wrongPass: req.session.wrongPass, 
+    wrongUser: req.session.wrongUser, 
+    badAttempt: req.session.badAttempt });
 });
 
 // LOGOUT
