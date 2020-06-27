@@ -23,7 +23,6 @@ mongoose.Promise = global.Promise;
 // CONTROLLERS
 const moviesController = require('./controllers/moviesController');
 const usersController = require('./controllers/usersController');
-const importController = require('./controllers/importController');
 
 //==============================================================
 // MIDDLEWARE
@@ -40,7 +39,6 @@ app.use(methodOverride('_method'));
 app.use(morgan('dev'));
 app.use('/users', usersController);
 app.use('/movies', isLoggedIn, moviesController);
-app.use('/imports', isLoggedIn, importController);
 
 // CUSTOM MIDDLEWARE
 // Check if a user is logged in (used for '/movies..' and '/imports..' routes)
