@@ -13,7 +13,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^2.0.0",
     "ejs": "^2.5.7",
-    "express": "^4.16.2",
+    "express": "^4.18.2",
     "express-session": "^1.15.6",
     "method-override": "^2.3.10",
     "mongoose": "^4.13.6",
